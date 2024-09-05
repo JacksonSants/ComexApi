@@ -1,0 +1,6 @@
+@ComexApi_HostAddress = http://localhost:5171
+
+GET {{ComexApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
