@@ -1,5 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
+using ComexApi.Data;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+var produtoConnection = builder.Configuration.GetConnectionString("ProdutoConnection");
+
+builder.Services.AddDbContext<ProdutoContext>(opts =>
+    opts.UseMySql(produtoConnection, ServerVersion.AutoDetect(produtoConnection)));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 
 builder.Services.AddControllers();

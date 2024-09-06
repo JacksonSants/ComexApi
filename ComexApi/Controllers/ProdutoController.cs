@@ -1,4 +1,7 @@
-﻿using ComexApi.Models;
+﻿using AutoMapper;
+using ComexApi.Data;
+using ComexApi.Data.Dtos;
+using ComexApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComexApi.Controllers;
@@ -7,50 +10,65 @@ namespace ComexApi.Controllers;
 [Route("[controller]")]
 public class ProdutoController : ControllerBase
 {
-    private static List<Produto> produtos = new List<Produto>();
+    private ProdutoContext _context;
+    private IMapper _mapper;
+
+    public ProdutoController(ProdutoContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
 
     [HttpPost]
-    public void CadastrarProduto([FromBody] Produto produto)
+    public void CadastrarProduto([FromBody] CreateProdutoDto produtoDto)
     {
-        produtos.Add(produto);
-
+        Produto produto = _mapper.Map<Produto>(produtoDto);
+        _context.Produtos.Add(produto);
+        _context.SaveChanges();
     }
 
     [HttpGet]
-    public IEnumerable<Produto> ConsultarProdutos()
+    public IEnumerable<ReadProdutoDto> ConsultarProdutos()
     {
-        return produtos;
+        return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos);
     }
 
-    [HttpPut("{nome}")]
-    public IActionResult AtualizarProduto(string nome, [FromBody] Produto produto)
+    /*[HttpGet("{id}")]
+    public IActionResult ConsultarProdutos(int id)
     {
-        var produtoExistente = produtos.FirstOrDefault(produto => produto.Nome == nome);
+        var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+    }*/
+
+    [HttpPut("{id}")]
+    public IActionResult AtualizarProduto(int id, [FromBody]  UpdateProdutoDto produtoDto)
+    {
+        var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+        _mapper.Map(produtoDto, produto);
+        _context.SaveChanges();
+        return NoContent();
+
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult RemoverProduto(int id)
+    {
+        var produtoExistente = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
         if (produtoExistente == null)
         {
             return NotFound();
         }
 
-        produtoExistente.Nome = produto.Nome;
-        produtoExistente.Descricao = produto.Descricao;
-        produtoExistente.PrecoUnitario = produto.PrecoUnitario;
-        produtoExistente.Quantidade = (int)produto.Quantidade;
-
-        return Ok(produtoExistente);
-
-    }
-
-    [HttpDelete("{nome}")]
-    public IActionResult RemoverProduto(string nome)
-    {
-        var produtoExistente = produtos.FirstOrDefault(produto => produto.Nome == nome);
-        if (produtoExistente == null)
-        {
-            return NotFound();
-        }
-
-        produtos.Remove(produtoExistente);
-        return Ok(nome);
+        _context.Produtos.Remove(produtoExistente);
+        _context.SaveChanges();
+        return Ok();
     }
 
 }
