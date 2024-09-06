@@ -2,6 +2,7 @@
 using ComexApi.Data;
 using ComexApi.Data.Dtos;
 using ComexApi.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComexApi.Controllers;
@@ -70,6 +71,33 @@ public class ProdutoController : ControllerBase
             return NotFound();
         }
         _mapper.Map(produtoDto, produto);
+        _context.SaveChanges();
+        return NoContent();
+
+    }
+
+    /// <summary>
+    /// Atualiza o campo de um registro através de um parâmetro {id}.
+    /// </summary>
+    /// <param name="produtoDto"></param>
+    /// <response code="204">Caso a Atualização do campo seja feita com sucesso.</response>
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public IActionResult AtualizarProdutoParcial(int id, [FromBody] JsonPatchDocument<UpdateProdutoDto> patch)
+    {
+        var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+        var produtoParaAtualizar = _mapper.Map<UpdateProdutoDto>(produto);
+        patch.ApplyTo(produtoParaAtualizar, ModelState);
+
+        if (!TryValidateModel(produtoParaAtualizar))
+        {
+            return ValidationProblem(ModelState);
+        }
+        _mapper.Map(produtoParaAtualizar, produto);
         _context.SaveChanges();
         return NoContent();
 
