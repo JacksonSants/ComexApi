@@ -2,7 +2,9 @@
 using ComexApi.Data;
 using ComexApi.Data.Dtos;
 using ComexApi.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace ComexApi.Controllers;
 
@@ -26,11 +28,13 @@ public class ProdutoController : ControllerBase
     /// <response code="201">Caso a inserção seja feita com sucesso.</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public void CadastrarProduto([FromBody] CreateProdutoDto produtoDto)
+    public IActionResult CadastrarProduto([FromBody] CreateProdutoDto produtoDto)
     {
         Produto produto = _mapper.Map<Produto>(produtoDto);
         _context.Produtos.Add(produto);
         _context.SaveChanges();
+
+        return CreatedAtAction(nameof(ConsultarProdutosId), new {id = produto.Id}, produto);
     }
 
     /// <summary>
@@ -40,20 +44,28 @@ public class ProdutoController : ControllerBase
     /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<ReadProdutoDto> ConsultarProdutos()
+    public IEnumerable<ReadProdutoDto> ConsultarProdutos([FromQuery] int skip = 0, [FromQuery] int take = 3)
     {
-        return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos);
+        return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos.Skip(skip).Take(take));
     }
 
-    /*[HttpGet("{id}")]
-    public IActionResult ConsultarProdutos(int id)
+    /// <summary>
+    /// Recupera um produto do banco de dados através de um parâmetro {id}.
+    /// </summary>
+    /// <param name="produtoDto">.</param>
+    /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [HttpGet("{id}")]
+    public IActionResult ConsultarProdutosId(int id)
     {
         var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
         if (produto == null)
         {
             return NotFound();
         }
-    }*/
+
+        return Ok(produto);
+    }
 
     /// <summary>
     /// Atualiza os dados de um produto do  banco de dados através de um parâmetro {id}.
@@ -73,6 +85,32 @@ public class ProdutoController : ControllerBase
         _context.SaveChanges();
         return NoContent();
 
+    }
+
+    /// <summary>
+    /// Atualiza um campo de um registro de um produto do  banco de dados através de um parâmetro {id}.
+    /// </summary>
+    /// <param name="produtoDto">Objetos necessários para a atualização de um produto.</param>
+    /// <response code="204">Caso a atualização seja feita com sucesso.</response>
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public IActionResult AtualizarProdutoParcial(int id, [FromBody]  JsonPatchDocument<UpdateProdutoDto> patch)
+    {
+        var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        var AtualizarProduto = _mapper.Map<UpdateProdutoDto>(produto);
+        patch.ApplyTo(AtualizarProduto, ModelState);
+        if (!TryValidateModel(AtualizarProduto))
+        {
+            return ValidationProblem();
+        }
+        _mapper.Map(AtualizarProduto, produto);
+        _context.SaveChanges();
+        return NoContent();
     }
 
     /// <summary>
