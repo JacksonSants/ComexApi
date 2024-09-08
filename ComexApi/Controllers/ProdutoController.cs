@@ -34,7 +34,7 @@ public class ProdutoController : ControllerBase
         _context.Produtos.Add(produto);
         _context.SaveChanges();
 
-        return CreatedAtAction(nameof(ConsultarProdutosId), new {id = produto.Id}, produto);
+        return CreatedAtAction(nameof(ConsultarProdutosId), new { id = produto.Id }, produto);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class ProdutoController : ControllerBase
     /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<ReadProdutoDto> ConsultarProdutos([FromQuery] int skip = 0, [FromQuery] int take = 3)
+    public IEnumerable<ReadProdutoDto> ConsultarProdutos([FromQuery] int skip = 0, [FromQuery] int take = 5)
     {
         return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos.Skip(skip).Take(take));
     }
@@ -54,6 +54,7 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <param name="produtoDto">.</param>
     /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
+    /// 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpGet("{id}")]
     public IActionResult ConsultarProdutosId(int id)
@@ -74,7 +75,7 @@ public class ProdutoController : ControllerBase
     /// <response code="204">Caso a atualização seja feita com sucesso.</response>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult AtualizarProduto(int id, [FromBody]  UpdateProdutoDto produtoDto)
+    public IActionResult AtualizarProduto(int id, [FromBody] UpdateProdutoDto produtoDto)
     {
         var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
         if (produto == null)
@@ -92,9 +93,10 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <param name="produtoDto">Objetos necessários para a atualização de um produto.</param>
     /// <response code="204">Caso a atualização seja feita com sucesso.</response>
+    /// 
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult AtualizarProdutoParcial(int id, [FromBody]  JsonPatchDocument<UpdateProdutoDto> patch)
+    public IActionResult AtualizarProdutoParcial(int id, [FromBody] JsonPatchDocument<UpdateProdutoDto> patch)
     {
         var produto = _context.Produtos.FirstOrDefault(produto => produto.Id == id);
         if (produto == null)
@@ -111,6 +113,17 @@ public class ProdutoController : ControllerBase
         _mapper.Map(AtualizarProduto, produto);
         _context.SaveChanges();
         return NoContent();
+        var produtoParaAtualizar = _mapper.Map<UpdateProdutoDto>(produto);
+        patch.ApplyTo(produtoParaAtualizar, ModelState);
+
+        if (!TryValidateModel(produtoParaAtualizar))
+        {
+            return ValidationProblem(ModelState);
+        }
+        _mapper.Map(produtoParaAtualizar, produto);
+        _context.SaveChanges();
+        return NoContent();
+
     }
 
     /// <summary>
