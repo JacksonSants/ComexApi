@@ -88,12 +88,10 @@ public class ProdutoController : ControllerBase
 
     }
 
-    /// <summary>
-    /// Atualiza um campo de um registro de um produto do  banco de dados através de um parâmetro {id}.
+    /// Atualiza o campo de um registro através de um parâmetro {id}.
     /// </summary>
-    /// <param name="produtoDto">Objetos necessários para a atualização de um produto.</param>
-    /// <response code="204">Caso a atualização seja feita com sucesso.</response>
-    /// 
+    /// <param name="produtoDto"></param>
+    /// <response code="204">Caso a Atualização do campo seja feita com sucesso.</response>
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult AtualizarProdutoParcial(int id, [FromBody] JsonPatchDocument<UpdateProdutoDto> patch)
