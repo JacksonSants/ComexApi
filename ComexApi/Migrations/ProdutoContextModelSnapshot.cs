@@ -47,7 +47,7 @@ namespace ComexApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("produtos");
+                    b.ToTable("Produtos");
                 });
 #pragma warning restore 612, 618
         }
