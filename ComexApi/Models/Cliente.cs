@@ -20,4 +20,7 @@ public class Cliente
     public string Profissao { get; set; }
     [Required(ErrorMessage = "O Telefone é obrigatório")]
     public string Telefone { get; set; }
+
+    public int EnderecoId { get; set; }
+    public virtual Endereco Endereco { get; set; }
 }

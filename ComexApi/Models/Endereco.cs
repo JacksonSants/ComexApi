@@ -18,4 +18,6 @@ public class Endereco
     public string Rua { get; set; }
     [Required(ErrorMessage = "O Numero é obrigatório")]
     public int Numero { get; set; }
+    public virtual Cliente Cliente { get; set; }
+
 }

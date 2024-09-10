@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ComexApi.Models;
-
 public class Produto
 {
     [Required]

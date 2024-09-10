@@ -15,4 +15,5 @@ public class CreateClienteDto
     public string Profissao { get; set; }
     [Required(ErrorMessage = "O Telefone é obrigatório")]
     public string Telefone { get; set; }
+    public int EnderecoId { get; set; }
 }
