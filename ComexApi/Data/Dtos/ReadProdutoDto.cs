@@ -14,4 +14,6 @@ public class ReadProdutoDto
     public int Quantidade { get; set; }
 
     public DateTime HoraConsulta { get; set; } = DateTime.Now;
+
+    public ReadCategoriaDto Categoria { get; set; }
 }

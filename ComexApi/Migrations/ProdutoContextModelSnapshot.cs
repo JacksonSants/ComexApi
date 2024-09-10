@@ -17,9 +17,29 @@ namespace ComexApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("ComexApi.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
 
             modelBuilder.Entity("ComexApi.Models.Cliente", b =>
                 {
@@ -105,6 +125,9 @@ namespace ComexApi.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -123,6 +146,8 @@ namespace ComexApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoriaId");
+
                     b.ToTable("Produtos");
                 });
 
@@ -135,6 +160,22 @@ namespace ComexApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Endereco");
+                });
+
+            modelBuilder.Entity("ComexApi.Models.Produto", b =>
+                {
+                    b.HasOne("ComexApi.Models.Categoria", "Categoria")
+                        .WithMany("Produtos")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("ComexApi.Models.Categoria", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("ComexApi.Models.Endereco", b =>

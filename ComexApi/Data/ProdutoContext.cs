@@ -14,5 +14,6 @@ public class ProdutoContext : DbContext
     public DbSet<Cliente> Cliente { get; set; }
 
     public DbSet<Endereco> Endereco { get; set; }
+    public DbSet<Categoria> Categorias { get; set; }
 
 }
