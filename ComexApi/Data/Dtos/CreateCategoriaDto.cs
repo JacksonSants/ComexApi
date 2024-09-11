@@ -6,6 +6,4 @@ public class CreateCategoriaDto
 {
     [Required(ErrorMessage = "O Nome da categoria é obrigatório.")]
     public string Nome { get; set; }
-
-
 }

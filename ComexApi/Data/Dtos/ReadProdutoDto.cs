@@ -15,5 +15,6 @@ public class ReadProdutoDto
 
     public DateTime HoraConsulta { get; set; } = DateTime.Now;
 
-    public ReadCategoriaDto Categoria { get; set; }
+    public string Categoria { get; set; }
+
 }

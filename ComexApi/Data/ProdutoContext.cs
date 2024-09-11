@@ -10,6 +10,14 @@ public class ProdutoContext : DbContext
 
     }
 
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Produto>()
+                .HasOne(produto => produto.Categoria)
+                .WithMany(categoria => categoria.Produtos)
+                .OnDelete(DeleteBehavior.Restrict); 
+    }
+
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<Cliente> Cliente { get; set; }
 

@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
-using ComexApi.Data;
 using ComexApi.Data.Dtos;
 using ComexApi.Models;
 
-public class Categoriaprofile : Profile
+public class CategoriaProfile : Profile
 {
-    public Categoriaprofile()
+    public CategoriaProfile()
     {
         CreateMap<CreateCategoriaDto, Categoria>();
-        CreateMap<Categoria, ReadCategoriaDto>();
+        CreateMap<UpdateCategoriaDto, Categoria>();
+        CreateMap<Categoria, ReadCategoriaDto>().ForMember(produtoDto => produtoDto.Produtos,
+            opt => opt.MapFrom(produto => produto.Produtos));
     }
 }

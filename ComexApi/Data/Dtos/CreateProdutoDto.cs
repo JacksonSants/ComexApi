@@ -16,6 +16,5 @@ public class CreateProdutoDto
 
     [Required(ErrorMessage = "A Quantidade é obrigatória.")]
     public int Quantidade { get; set; }
-
-    public int? CategoriaId { get; set; }
-}
+    public int CategoriaId { get; set; }
+    }

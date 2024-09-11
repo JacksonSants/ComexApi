@@ -30,7 +30,7 @@ public class CategoriaController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ReadCategoriaDto> ConsuoltarCategorias([FromQuery] int skip = 0, [FromQuery] int take = 4)
+    public IEnumerable<ReadCategoriaDto> ConsultarCategorias([FromQuery] int skip = 0, [FromQuery] int take = 4)
     {
         return _mapper.Map<List<ReadCategoriaDto>>(_context.Categorias.Skip(skip).Take(take).ToList());
     }
@@ -42,7 +42,7 @@ public class CategoriaController : ControllerBase
 
         if (categoria == null)
         {
-            NotFound();
+            return NotFound();
         }
 
         return Ok(categoria);
@@ -55,12 +55,11 @@ public class CategoriaController : ControllerBase
 
         if (categoria == null)
         {
-            NotFound();
+            return NotFound();
         }
 
         _mapper.Map(categoriaDto, categoria);
         _context.SaveChanges();
-
         return NoContent();
     }
 
@@ -71,7 +70,7 @@ public class CategoriaController : ControllerBase
 
         if (categoria == null)
         {
-            NotFound();
+            return NotFound();
         }
 
         _context.Remove(categoria);
