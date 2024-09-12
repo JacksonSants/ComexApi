@@ -54,7 +54,6 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <param name="produtoDto">.</param>
     /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
-    /// 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpGet("{id}")]
     public IActionResult ConsultarProdutosId(int id)
@@ -89,7 +88,7 @@ public class ProdutoController : ControllerBase
     }
 
     /// <summary>
-    /// Atualiza o campo de um registro através de um parâmetro {id}.
+    /// Atualiza o campo de um registro do Endereço através de um parâmetro {id}.
     /// </summary>
     /// <param name="produtoDto"></param>
     /// <response code="204">Caso a Atualização do campo seja feita com sucesso.</response>

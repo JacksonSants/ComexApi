@@ -20,6 +20,11 @@ public class CategoriaController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Adiciona uma categoria ao banco de dados.
+    /// </summary>
+    /// <param name="produtoDto">Objetos necessário para a criação de uma categoria.</param>
+    /// <response code="201">Caso a inserção seja feita com sucesso.</response>
     [HttpPost]
     public IActionResult Criarcategoria([FromBody] CreateCategoriaDto categoriaDto)
     {
@@ -29,12 +34,22 @@ public class CategoriaController : ControllerBase
         return CreatedAtAction(nameof(ConsultarCategoriaporId), new { id = categoria.Id }, categoria);
     }
 
+    /// <summary>
+    /// Recupera as categorias do banco de dados.
+    /// </summary>
+    /// <param name="produtoDto">.</param>
+    /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
     [HttpGet]
     public IEnumerable<ReadCategoriaDto> ConsuoltarCategorias([FromQuery] int skip = 0, [FromQuery] int take = 4)
     {
         return _mapper.Map<List<ReadCategoriaDto>>(_context.Categorias.Skip(skip).Take(take).ToList());
     }
 
+    /// <summary>
+    /// Recupera uma categoria do banco de dados através de um parâmetro {id}.
+    /// </summary>
+    /// <param name="produtoDto">.</param>
+    /// <response code="200">Caso a recuperação seja feita com sucesso.</response>
     [HttpGet("{id}")]
     public IActionResult ConsultarCategoriaporId(int id)
     {
@@ -48,6 +63,11 @@ public class CategoriaController : ControllerBase
         return Ok(categoria);
     }
 
+    /// <summary>
+    /// Atualiza os dados de uma categoria do  banco de dados através de um parâmetro {id}.
+    /// </summary>
+    /// <param name="produtoDto">Objetos necessários para a atualização de uma categoria.</param>
+    /// <response code="204">Caso a atualização seja feita com sucesso.</response>
     [HttpPut("{id}")]
     public IActionResult Atualizarproduto(int id, [FromBody] UpdateCategoriaDto categoriaDto)
     {
@@ -64,6 +84,11 @@ public class CategoriaController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove uma categoria do banco de dados através de um parâmtro {id}.
+    /// </summary>
+    /// <param name="produtoDto"></param>
+    /// <response code="204">Caso a remoção seja feita com sucesso.</response>
     [HttpDelete("{id}")]
     public IActionResult RemoverCategoria(int id)
     {

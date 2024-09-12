@@ -8,6 +8,7 @@ public class Categoriaprofile : Profile
     public Categoriaprofile()
     {
         CreateMap<CreateCategoriaDto, Categoria>();
-        CreateMap<Categoria, ReadCategoriaDto>();
+        CreateMap<Categoria, ReadCategoriaDto>().ForMember(categoriaDto => categoriaDto.Produtos,
+            opt => opt.MapFrom(categoria => categoria.Produtos));
     }
 }

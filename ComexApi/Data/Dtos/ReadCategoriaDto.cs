@@ -6,5 +6,5 @@ public class ReadCategoriaDto
 {
     public int Id { get; set; }
     public string Nome { get; set; }
-    public ReadProdutoDto Produtos { get; set; }
+    public ICollection<ReadProdutoDto> Produtos { get; set; }
 }
