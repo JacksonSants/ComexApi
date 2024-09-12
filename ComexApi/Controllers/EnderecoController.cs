@@ -123,7 +123,7 @@ public class EnderecoController : ControllerBase
         var endereco = _context.Endereco.FirstOrDefault(endereco => endereco.Id == id);
         if (endereco == null)
         {
-            NotFound();
+            return NotFound();
         }
 
         _context.Endereco.Remove(endereco);

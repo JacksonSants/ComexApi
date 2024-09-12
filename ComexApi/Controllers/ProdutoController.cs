@@ -46,7 +46,7 @@ public class ProdutoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<ReadProdutoDto> ConsultarProdutos([FromQuery] int skip = 0, [FromQuery] int take = 5)
     {
-        return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos.Skip(skip).Take(take));
+        return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos.Skip(skip).Take(take).ToList());
     }
 
     /// <summary>
