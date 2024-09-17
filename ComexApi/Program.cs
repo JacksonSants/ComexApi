@@ -1,4 +1,24 @@
+using ComexApi.Data;
+using ComexApi.Models;
+using ComexApi.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var connectionDb = builder.Configuration.GetConnectionString("connectionDb");
+
+builder.Services.AddDbContext<BibliotecaContext>(
+    opts =>
+    {
+        opts.UseMySql(connectionDb, ServerVersion.AutoDetect(connectionDb));
+    });
+builder.Services
+    .AddIdentity<Admin, IdentityRole>()
+    .AddEntityFrameworkStores<BibliotecaContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<RegisterServices>();
 
 // Add services to the container.
 
