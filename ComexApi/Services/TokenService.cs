@@ -16,9 +16,7 @@ public class TokenService
         {
             new Claim("username", admin.UserName),
             new Claim("id", admin.Id),
-            new Claim(ClaimTypes.Email, admin.Email.ToString()),
-            new Claim(ClaimTypes.DateOfBirth, admin.DataNascimento.ToString()),
-            new Claim("loginTimesTamp", DateTime.UtcNow.ToString())
+            new Claim(ClaimTypes.DateOfBirth, admin.DataNascimento.ToString())
         };
 
         var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("OHGFWRG0WY0843T9HWUG4H-24T835YWHRHA0Q334"));
@@ -29,5 +27,7 @@ public class TokenService
             expires: DateTime.UtcNow.AddMinutes(10),
             claims: claims,
             signingCredentials: sigIngCrentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

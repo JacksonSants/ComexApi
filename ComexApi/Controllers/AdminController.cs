@@ -16,19 +16,17 @@ public class AdminController : ControllerBase
         _service = service;
     }
 
-    [HttpPost]
-    [Route("cadastro")]
+    [HttpPost("cadastro")]
     public async Task<IActionResult> RegisterAdmin([FromBody] CreateAdminDto adminDto)
     {
         await _service.RegisterAdmin(adminDto);
         return Ok("User created successfully.");
     }
 
-    [HttpPost]
-    [Route("login")]
-    public async Task<IActionResult> LoginAdmin([FromBody] CreateAdminDto adminDto)
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginAdmin(LoginAdminDto loginAdmin)
     {
-        await _service.RegisterAdmin(adminDto);
-        return Ok("Login sucessfull.");
+        var token = await _service.Login(loginAdmin);
+        return Ok(token);
     }
 }

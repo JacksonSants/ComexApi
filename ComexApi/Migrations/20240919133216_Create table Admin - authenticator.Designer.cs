@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComexApi.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    [Migration("20240917150519_Create table admin")]
-    partial class Createtableadmin
+    [Migration("20240919133216_Create table Admin - authenticator")]
+    partial class CreatetableAdminauthenticator
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
