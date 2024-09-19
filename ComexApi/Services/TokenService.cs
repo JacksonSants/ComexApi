@@ -10,6 +10,12 @@ namespace ComexApi.Services;
 
 public class TokenService
 {
+    private IConfiguration _configuration;
+
+    public TokenService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
     public string GenerateToken(Admin admin)
     {
         Claim[] claims = new Claim[]
@@ -19,7 +25,7 @@ public class TokenService
             new Claim(ClaimTypes.DateOfBirth, admin.DataNascimento.ToString())
         };
 
-        var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("OHGFWRG0WY0843T9HWUG4H-24T835YWHRHA0Q334"));
+        var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SymmetricSecurityKey"]));
 
         var sigIngCrentials = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
 

@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionDb = builder.Configuration.GetConnectionString("connectionDb");
+var connectionDb = builder.Configuration["ConnectionStrings: connectionDb"];
 
 builder.Services.AddDbContext<BibliotecaContext>(
     opts =>
@@ -27,7 +27,7 @@ builder.Services.AddScoped<RegisterServices>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Token", policy =>
+    options.AddPolicy("IdadeMinima", policy =>
         policy.AddRequirements(new IdadeMinima(18))
         );
 });
@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("OHGFWRG0WY0843T9HWUG4H-24T835YWHRHA0Q334")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"])),
         ValidateAudience = false,
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero
