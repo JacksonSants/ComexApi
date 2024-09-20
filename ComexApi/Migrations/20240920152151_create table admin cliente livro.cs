@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ComexApi.Migrations
 {
     /// <inheritdoc />
-    public partial class create_table_a : Migration
+    public partial class createtableadminclientelivro : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
