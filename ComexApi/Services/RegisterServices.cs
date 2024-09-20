@@ -29,7 +29,7 @@ public class RegisterServices
         if (!result.Succeeded) throw new ApplicationException("Error register user.");
     }
 
-    internal async Task<string> Login(LoginAdminDto adminDto)
+    public async Task<string> Login(LoginAdminDto adminDto)
     {
         var result = await _signInManager.PasswordSignInAsync(adminDto.Username, adminDto.Password, false, false);
 

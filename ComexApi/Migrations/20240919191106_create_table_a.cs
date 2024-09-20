@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ComexApi.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatetableAdminauthenticator : Migration
+    public partial class create_table_a : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

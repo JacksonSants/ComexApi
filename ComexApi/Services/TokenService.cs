@@ -24,7 +24,6 @@ public class TokenService
             new Claim("id", admin.Id),
             new Claim(ClaimTypes.DateOfBirth, admin.DataNascimento.ToString())
         };
-
         var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SymmetricSecurityKey"]));
 
         var sigIngCrentials = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
