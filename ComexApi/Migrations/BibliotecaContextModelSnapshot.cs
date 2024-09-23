@@ -93,6 +93,67 @@ namespace ComexApi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ComexApi.Models.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CPF")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cliente");
+                });
+
+            modelBuilder.Entity("ComexApi.Models.Livro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Autor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DatePublicacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Emprestado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Livro");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -225,6 +286,15 @@ namespace ComexApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ComexApi.Models.Livro", b =>
+                {
+                    b.HasOne("ComexApi.Models.Cliente", "Cliente")
+                        .WithMany("Livros")
+                        .HasForeignKey("ClienteId");
+
+                    b.Navigation("Cliente");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -274,6 +344,11 @@ namespace ComexApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ComexApi.Models.Cliente", b =>
+                {
+                    b.Navigation("Livros");
                 });
 #pragma warning restore 612, 618
         }

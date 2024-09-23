@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using ComexApi.Data;
+using ComexApi.Data.Dto;
 using ComexApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComexApi.Controllers;
@@ -14,35 +16,37 @@ public class LivroController : ControllerBase
 {
     private IMapper _mapper;
     private UserManager<Admin> _userManager;
+    private BibliotecaContext _bibliotecaContext;
 
-    private static List<Livro> livros = new List<Livro>();
-
-    public LivroController(IMapper mapper, UserManager<Admin> userManager)
+    public LivroController(IMapper mapper, UserManager<Admin> userManager, BibliotecaContext bibliotecaContext)
     {
         _mapper = mapper;
         _userManager = userManager;
+        _bibliotecaContext = bibliotecaContext;
     }
 
     [HttpPost]
     [Authorize(Policy = "IdadeMinima")]
-    public ActionResult CreateLivro([FromBody] Livro livro)
+    public ActionResult CreateLivro([FromBody] CreateLivroDto livroDto)
     {
-        livros.Add(livro);
+        Livro livro = _mapper.Map<Livro>(livroDto);
+        _bibliotecaContext.Livro.Add(livro);
+        _bibliotecaContext.SaveChanges();
         return Ok(livro);
     }
 
     [HttpGet]
     [Authorize(Policy = "IdadeMinima")]
-    public IEnumerable<Livro> ConsultarLivros()
+    public IEnumerable<ReadLivroDto> ConsultarLivros()
     {
-        return livros;
+        return _mapper.Map<List<ReadLivroDto>>(_bibliotecaContext.Livro.ToList());
     }
 
     [HttpGet("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult ConsultarLivros(string id)
+    public IActionResult ConsultarLivros(int id)
     {
-        var currentLivro = livros.FirstOrDefault(livro => livro.Id == id);
+        var currentLivro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
         if (currentLivro == null)
         {
@@ -51,40 +55,59 @@ public class LivroController : ControllerBase
 
         return Ok(currentLivro);
     }
+    
 
     [HttpPut("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult ConsultarLivros(string id, [FromBody] Livro livro)
+    public IActionResult ConsultarLivros(int id, [FromBody] Livro livro)
     {
-        var currentLivro = livros.FirstOrDefault(livro => livro.Id == id);
+        var currentLivro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
         if (currentLivro == null)
         {
             return NotFound();
         }
 
-        currentLivro.Titulo = livro.Titulo;
-        currentLivro.Autor = livro.Autor;
-        currentLivro.ISBN = livro.ISBN;
-        currentLivro.Descricao = livro.Descricao;
-        currentLivro.Emprestado = livro.Emprestado;
-        currentLivro.Id = id;
+        _mapper.Map(currentLivro, livro);
+        _bibliotecaContext.SaveChanges();
 
+        return NoContent();
+    }
+
+    [HttpPatch("{id}")]
+    [Authorize(Policy = "IdadeMinima")]
+    public IActionResult ConsultarLivrosParcil(int id, [FromBody] JsonPatchDocument<UpdateLivroDto> patch)
+    {
+        var livro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
+
+        if (livro == null)
+        {
+            return NotFound();
+        }
+
+        var currentLivro = _mapper.Map<UpdateLivroDto>(livro);
+        patch.ApplyTo(currentLivro, ModelState);
+        if (!TryValidateModel(currentLivro)) 
+        {
+            return ValidationProblem();
+        }
+        _bibliotecaContext.SaveChanges();
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult RemoveLivros(string id)
+    public IActionResult RemoveLivros(int id)
     {
-        var currentLivro = livros.FirstOrDefault(livro => livro.Id == id);
+        var currentLivro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
         if (currentLivro == null)
         {
             return NotFound();
         }
 
-        livros.Remove(currentLivro);
+        _bibliotecaContext.Livro.Remove(currentLivro);
+        _bibliotecaContext.SaveChanges();
         return NoContent();
     }
 

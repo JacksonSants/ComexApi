@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ComexApi.Models;
+namespace ComexApi.Data.Dto;
 
-public class Livro
+public class UpdateLivroDto
 {
-    [Key]
-    [Required]
-    public int Id { get; set; }
-    [Required(ErrorMessage = "Campo obrigatório")]
     public string Titulo { get; set; }
     [Required(ErrorMessage = "Campo obrigatório")]
     public string Autor { get; set; }
@@ -17,10 +12,7 @@ public class Livro
     [Required(ErrorMessage = "Campo obrigatório")]
     public string ISBN { get; set; }
     [Required(ErrorMessage = "Campo obrigatório")]
-    public DateTime DatePublicacao { get; set; }
+    DateTime DatePublicacao { get; set; }
     [Required(ErrorMessage = "Campo obrigatório")]
     public bool Emprestado { get; set; }
-    public int? ClienteId { get; set; }
-    public virtual Cliente Cliente { get; set; }
-
 }
