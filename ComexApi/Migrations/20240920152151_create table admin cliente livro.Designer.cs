@@ -12,8 +12,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComexApi.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
+<<<<<<<< HEAD:ComexApi/Migrations/20240923025110_Create Table Livro Cliente Admin.Designer.cs
     [Migration("20240923025110_Create Table Livro Cliente Admin")]
     partial class CreateTableLivroClienteAdmin
+========
+    [Migration("20240920152151_create table admin cliente livro")]
+    partial class createtableadminclientelivro
+>>>>>>>> 26dc693b32e49eaf9430df308d2f7fc68f6f6113:ComexApi/Migrations/20240920152151_create table admin cliente livro.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

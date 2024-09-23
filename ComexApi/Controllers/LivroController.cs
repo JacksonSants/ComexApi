@@ -24,6 +24,7 @@ public class LivroController : ControllerBase
         _userManager = userManager;
         _bibliotecaContext = bibliotecaContext;
     }
+    }
 
     [HttpPost]
     [Authorize(Policy = "IdadeMinima")]
