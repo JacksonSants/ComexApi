@@ -6,8 +6,6 @@ namespace ComexApi.Data.Dto;
 
 public class CreateLivroDto
 {
-    public int Id { get; set; }
-    [Required(ErrorMessage = "Campo obrigatório")]
     public string Titulo { get; set; }
     [Required(ErrorMessage = "Campo obrigatório")]
     public string Autor { get; set; }

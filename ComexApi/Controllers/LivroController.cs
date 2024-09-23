@@ -3,7 +3,6 @@ using ComexApi.Data;
 using ComexApi.Data.Dto;
 using ComexApi.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,6 @@ public class LivroController : ControllerBase
         _mapper = mapper;
         _userManager = userManager;
         _bibliotecaContext = bibliotecaContext;
-    }
     }
 
     [HttpPost]

@@ -7,11 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ComexApi.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:ComexApi/Migrations/20240923025110_Create Table Livro Cliente Admin.cs
-    public partial class CreateTableLivroClienteAdmin : Migration
-========
-    public partial class createtableadminclientelivro : Migration
->>>>>>>> 26dc693b32e49eaf9430df308d2f7fc68f6f6113:ComexApi/Migrations/20240920152151_create table admin cliente livro.cs
+    public partial class createtableadminlivrocliente : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

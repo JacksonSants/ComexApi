@@ -15,4 +15,5 @@ public class UpdateLivroDto
     DateTime DatePublicacao { get; set; }
     [Required(ErrorMessage = "Campo obrigatório")]
     public bool Emprestado { get; set; }
+    public int? ClienteId { get; set; }
 }

@@ -11,6 +11,6 @@ public class Cliente
     public string Nome { get; set; }
     [Required(ErrorMessage = "Campo CPF obrigatório")]
     public string CPF { get; set; }
-    public virtual ICollection<Livro> Livros { get; set; }
+    public virtual ICollection<Livro> Livros{ get; set; }
 
 }
