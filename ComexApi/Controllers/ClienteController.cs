@@ -4,6 +4,7 @@ using ComexApi.Data.Dto;
 using ComexApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComexApi.Controllers;
@@ -31,4 +32,83 @@ public class ClienteController : ControllerBase
         _bibliotecaContext.SaveChanges();
         return Ok(cliente);
     }
+
+    [Authorize(Policy = "IdadeMinima")]
+    public IEnumerable<ReadClienteDto> GetClientes()
+    {
+
+        return _mapper.Map<List<ReadClienteDto>>(_bibliotecaContext.Cliente.ToList());
+    }
+
+    [HttpGet("{id}")]
+    [Authorize(Policy = "IdadeMinima")]
+    public IActionResult GetLivrosForId(int id)
+    {
+        var currentCliente = _bibliotecaContext.Cliente.FirstOrDefault(cliente => cliente.Id == id);
+
+        if (currentCliente == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(currentCliente);
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Policy = "IdadeMinima")]
+    public IActionResult UpdateClienteForId(int id, [FromBody] UpdateClienteDto clienteDto)
+    {
+        var currentCliente = _bibliotecaContext.Cliente.FirstOrDefault(cliente => cliente.Id == id);
+
+        if (currentCliente == null)
+        {
+            return NotFound();
+        }
+
+        _mapper.Map(currentCliente, clienteDto);
+        _bibliotecaContext.SaveChanges();
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Policy = "IdadeMinima")]
+    public IActionResult UpdateClientePartialForI(int id, [FromBody] JsonPatchDocument<UpdateClienteDto> patch)
+    {
+        var cliente = _bibliotecaContext.Cliente.FirstOrDefault(cliente => cliente.Id == id);
+
+        if (cliente == null)
+        {
+            return NotFound();
+        }
+
+        var currentCliente = _mapper.Map<UpdateClienteDto>(cliente);
+        patch.ApplyTo(currentCliente, ModelState);
+        if (!TryValidateModel(currentCliente))
+        {
+            return ValidationProblem();
+        }
+
+        _bibliotecaContext.SaveChanges();
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Policy = "IdadeMinima")]
+    public IActionResult DeleteClienteForI(int id, [FromBody] JsonPatchDocument<UpdateClienteDto> patch)
+    {
+        var cliente = _bibliotecaContext.Cliente.FirstOrDefault(cliente => cliente.Id == id);
+
+        if (cliente == null)
+        {
+            return NotFound();
+        }
+
+        _bibliotecaContext.Cliente.Remove(cliente);
+
+        _bibliotecaContext.SaveChanges();
+        return NoContent();
+    }
+
+
+
 }

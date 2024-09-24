@@ -43,7 +43,7 @@ public class LivroController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult ConsultarLivros(int id)
+    public IActionResult GetLivrosForId(int id)
     {
         var currentLivro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
@@ -58,7 +58,7 @@ public class LivroController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult ConsultarLivros(int id, [FromBody] Livro livro)
+    public IActionResult UpdateLivrosForId(int id, [FromBody] Livro livro)
     {
         var currentLivro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
@@ -75,7 +75,7 @@ public class LivroController : ControllerBase
 
     [HttpPatch("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult ConsultarLivrosParcil(int id, [FromBody] JsonPatchDocument<UpdateLivroDto> patch)
+    public IActionResult GetLivrosPartialForId(int id, [FromBody] JsonPatchDocument<UpdateLivroDto> patch)
     {
         var livro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
@@ -96,7 +96,7 @@ public class LivroController : ControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "IdadeMinima")]
-    public IActionResult RemoveLivros(int id)
+    public IActionResult DeleteLivrosForId(int id)
     {
         var currentLivro = _bibliotecaContext.Livro.FirstOrDefault(livro => livro.Id == id);
 
