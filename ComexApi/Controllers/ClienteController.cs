@@ -33,6 +33,7 @@ public class ClienteController : ControllerBase
         return Ok(cliente);
     }
 
+    [HttpGet]
     [Authorize(Policy = "IdadeMinima")]
     public IEnumerable<ReadClienteDto> GetClientes()
     {
@@ -70,29 +71,7 @@ public class ClienteController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{id}")]
-    [Authorize(Policy = "IdadeMinima")]
-    public IActionResult UpdateClientePartialForI(int id, [FromBody] JsonPatchDocument<UpdateClienteDto> patch)
-    {
-        var cliente = _bibliotecaContext.Cliente.FirstOrDefault(cliente => cliente.Id == id);
-
-        if (cliente == null)
-        {
-            return NotFound();
-        }
-
-        var currentCliente = _mapper.Map<UpdateClienteDto>(cliente);
-        patch.ApplyTo(currentCliente, ModelState);
-        if (!TryValidateModel(currentCliente))
-        {
-            return ValidationProblem();
-        }
-
-        _bibliotecaContext.SaveChanges();
-        return NoContent();
-    }
-
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     [Authorize(Policy = "IdadeMinima")]
     public IActionResult DeleteClienteForI(int id, [FromBody] JsonPatchDocument<UpdateClienteDto> patch)
     {
@@ -109,6 +88,20 @@ public class ClienteController : ControllerBase
         return NoContent();
     }
 
+    [HttpDelete("{id}")]
+    [Authorize(Policy = "IdadeMinima")]
+    public IActionResult UpdateClientePartialForI(int id)
+    {
+        var cliente = _bibliotecaContext.Cliente.FirstOrDefault(cliente => cliente.Id == id);
 
+        if (cliente == null)
+        {
+            return NotFound();
+        }
+
+        _bibliotecaContext.Cliente.Remove(cliente);
+        _bibliotecaContext.SaveChanges();
+        return NoContent();
+    }
 
 }

@@ -1,0 +1,6 @@
+﻿namespace ComexApi
+{
+    public class document
+    {
+    }
+}

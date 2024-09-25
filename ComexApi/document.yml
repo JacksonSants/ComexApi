@@ -1,0 +1,13 @@
+﻿openapi: 3.0.1
+info:
+  title: API de consultório
+  description: API para controlar médicos e suas especialidade.
+  version: 0.0.1
+  termsOfService: https://mockapi.io
+  contact:
+    nome: Suporte a DEVs
+    email: suporte@dev.com.br
+    url: https://mockapi.io
+  license:
+    name: "GPL_V3"
+    url: https://mockapi.io    

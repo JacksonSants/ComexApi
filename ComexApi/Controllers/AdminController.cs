@@ -15,7 +15,11 @@ public class AdminController : ControllerBase
     {
         _service = service;
     }
-
+    /// <summary>
+    /// Adiciona um cliente ao banco de dados.
+    /// </summary>
+    /// <param name="produtoDto">Objetos necessário para a criação de um cliente.</param>
+    /// <response code="201">Caso a inserção seja feita com sucesso.</response>
     [HttpPost("cadastro")]
     public async Task<IActionResult> RegisterAdmin([FromBody] CreateAdminDto adminDto)
     {

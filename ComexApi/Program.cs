@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,7 +57,30 @@ builder.Services.AddSingleton<IAuthorizationHandler, IdadeAuthorization>();
 builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "1.0.1",
+        Title = "Api gestâo de biblioteca.",
+        Description = "Api de gência e gestão de biblioteca. Ela permite a gestâo de usuários e controle de acesso, assim como o cdastro de livros e empréstimos para cliente.",
+        Contact = new OpenApiContact
+        {
+            Name = "Suporte a DEVs",
+            Email = "biblioteca@gmail.com",
+            Url = new Uri("https://example.com/biblioteca@gmail.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "GPL V3",
+            Url = new Uri("https://example.com/biblioteca@gmail.com")
+        },
+        TermsOfService = new Uri("https://example.com/terms"),
+    });
+});
+
 
 var app = builder.Build();
 
