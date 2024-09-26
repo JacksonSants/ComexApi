@@ -1,0 +1,130 @@
+﻿﻿openapi: 3.0.3
+info:
+  title: Comex API
+  description: Projeto de e-commerce de vendas de produtos.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: jacksondiego@gamil.com
+  license:
+    name: Apache
+    url: http://www.apache.org/licenses
+  version: 2.0
+externalDocs:
+  description: Documentação
+  url: http://www.apache.org
+servers:
+  - url: https://localhost:7118
+
+paths:
+
+  /Categoria:
+    get:
+      tags:
+        - Produto
+      summary: Recupera todos os produtos do banco de dados
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/categoria' 
+        404:
+          description: Produtos não encontrados
+    post:
+      tags:
+        - Produto
+      summary: Adiciona um produto no banco de dados
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/categoria' 
+              
+      responses:
+        201:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/categoria' 
+        400:
+          description: "Falha ao criar categoria"
+          
+  /Categoria/{id}:
+    get:
+      tags:
+        - Produto
+      summary: Recupera uma categoria do banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: ID do produto a ser buscado
+        required: true
+        schema:
+          type: integer
+            
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/categoria' 
+        404:
+          description: Produtos não encontrados
+          
+    put:
+      tags:
+        - Produto
+      summary: Atualiza uma categoria do banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: ID do produto a ser atualizado
+        required: true
+        schema:
+          type: integer
+            
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/categoria' 
+              
+      responses: 
+        204: 
+          description: Sem conteudo
+        400:
+          description: Falha ao atualizar o produto
+    
+    delete:
+      tags:
+        - Produto
+      summary: Deleta uma categoria 
+      parameters:
+      - name: id
+        in: path
+        description: ID do produto a ser excluído
+        required: true
+        schema:
+          type: integer
+          
+      responses: 
+        204: 
+          description: Sem conteudo
+        400:
+          description: Falha ao remover o produto
+security: 
+components:
+  schemas:
+    categoria:
+        type: object
+        properties:
+            Id:
+                type: integer
+            nome:
+                type: string
+      
