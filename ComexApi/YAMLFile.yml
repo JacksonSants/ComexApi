@@ -83,7 +83,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID do produto a ser atualizado
+        description: ID da categoria a ser atualizado
         required: true
         schema:
           type: integer
@@ -107,7 +107,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID do produto a ser excluído
+        description: ID da categoria a ser excluído
         required: true
         schema:
           type: integer
@@ -117,31 +117,32 @@ paths:
           description: Categoria excluído com sucesso
         400:
           description: Falha ao remover o produto
-  /Produto:
+          
+  /Endereco:
     get:
       tags:
-        - Produto
-      summary: Recupera todos os produtos do banco de dados
+        - Endereco
+      summary: Recupera todos os enderecos do banco de dados
       responses: 
         200: 
           description: Sucesso
           content: 
             application/json:
-              schema: 
+              schema:
                 type: array
                 items: 
-                  $ref: '#/components/schemas/produto' 
+                  $ref: '#/components/schemas/endereco' 
         404:
-          description: Produtos não encontrados
+          description: Endereoo não encontrados
     post:
         tags:
-          - Produto
-        summary: Adiciona um produto no banco de dados
+          - Endereco
+        summary: Adiciona um endereco no banco de dados
         requestBody:
           content:
             application/json: 
               schema:
-                $ref: '#/components/schemas/produto' 
+                $ref: '#/components/schemas/endereco' 
                 
         responses:
           201:
@@ -149,16 +150,17 @@ paths:
             content: 
               application/json:
                 schema: 
-                  $ref: '#/components/schemas/produto'
+                  $ref: '#/components/schemas/endereco'
+                  
   /Produtos:{id}:
     get:
       tags:
-       - Produto
-      summary: Recupera um produto do banco de dados através de um parâmetro {id}
+       - Endereco
+      summary: Recupera um endereco do banco de dados através de um parâmetro {id}
       parameters:
       - name: id
         in: path
-        description: ID do produto a ser buscado
+        description: ID do endereco a ser buscado
         required: true
         schema:
           type: integer
@@ -169,34 +171,147 @@ paths:
           content: 
             application/json:
               schema: 
-                 $ref: '#/components/schemas/produto' 
-        404:
-          description: Produtos não encontrados
-    
+                 $ref: '#/components/schemas/endereco' 
     put:
       tags:
-         - Produto
-      summary: Atualiza dados de um produto do banco de dados através de um parâmetro
-      
+        - Endereco
+      summary: Atualiza um endereco do banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: ID do endereco a ser atualizado
+        required: true
+        schema:
+          type: integer
+            
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/endereco' 
+              
+      responses: 
+        204:
+          description: Endereco atualizado com sucesso
+        400:
+          description: Falha ao atualizar o endereco
     
     delete:
       tags:
-        - Produto
-      summary: Remove um produto
+        - Endereco
+      summary: Remove um endereco
       parameters: 
       - name: id
         in: path
-        description: Id do produto a ser excluído
+        description: Id do endereco a ser excluído
         required: true
         schema:
           type: integer
       
-      responses:
+      responses: 
+        204: 
+          description: Endereco excluído com sucesso
+        400:
+          description: Falha ao remover o endereco
+          
+  /Cliente:
+    get:
+      tags:
+        - Endereco
+      summary: Recupera todos os cliente do banco de dados
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/cliente'
+    post:
+        tags:
+          - Cliente
+        summary: Adiciona um cliente no banco de dados
+        requestBody:
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/cliente' 
+                
+        responses:
+          201:
+            description: "Sucesso"
+            content: 
+              application/json:
+                schema: 
+                  $ref: '#/components/schemas/cliente'
+                  
+  /Cliente:{id}:
+    get:
+      tags:
+       - Endereco
+      summary: Recupera um cliente do banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: ID do cliente a ser buscado
+        required: true
+        schema:
+          type: integer
+              
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/cliente' 
+        404:
+          description: Cliente não encontrados
+    put:
+      tags:
+        - Cliente
+      summary: Atualiza um cliente no banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: Id do cliente a ser atualizado
+        required: true
+        schema:
+          type: integer
+            
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/cliente' 
+              
+      responses: 
         204:
-          description: Produto excluído com sucesso
-        404: Produto não encontrado
+          description: Cliente atualizado com sucesso
+        400:
+          description: Falha ao atualizar o clente
     
-
+    delete:
+      tags:
+        - Cliente
+      summary: Remove um cliente
+      parameters: 
+      - name: id
+        in: path
+        description: Id do cliente a ser excluído
+        required: true
+        schema:
+          type: integer
+      
+      responses: 
+        204: 
+          description: Cliente excluído com sucesso
+        400:
+          description: Falha ao remover o cliente
+          
+  
+        
 components:
   schemas:
     categoria:
@@ -206,7 +321,7 @@ components:
           type: integer
         nome:
           type: string
-    produto:
+    endereco:
       type: object
       properties:
         Id:
@@ -222,5 +337,22 @@ components:
         Rua:
           type: string
         Numero:
+          type: integer
+    cliente:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Nome:
+          type: string
+        CPF:
+          type: string
+        Email:
+          type: string
+        Profissao:
+          type: string
+        Telefone:
+          type: string
+        EnderecoId:
           type: integer
   
