@@ -1,14 +1,14 @@
-﻿﻿openapi: 3.0.3
+﻿openapi: 3.0.3
 info:
   title: Comex API
-  description: Projeto de e-commerce de vendas de produtos.
+  description: O projeto é uma plataforma de e-commerce voltada para a venda de produtos de diferentes categorias. Ele permite o gerenciamento completo de produtos, clientes e categorias, oferecendo operações CRUD para cada entidade. O sistema também permite que clientes façam pedidos, visualizem produtos e gerenciem seus próprios dados.
   termsOfService: http://swagger.io/terms/
   contact:
     email: jacksondiego@gamil.com
   license:
     name: Apache
     url: http://www.apache.org/licenses
-  version: 2.0
+  version: v1
 externalDocs:
   description: Documentação
   url: http://www.apache.org
@@ -20,7 +20,7 @@ paths:
   /Categoria:
     get:
       tags:
-        - Produto
+        - Categoria
       summary: Recupera todos os produtos do banco de dados
       responses: 
         200: 
@@ -35,7 +35,7 @@ paths:
           description: Produtos não encontrados
     post:
       tags:
-        - Produto
+        - Categoria
       summary: Adiciona um produto no banco de dados
       requestBody:
         content:
@@ -56,7 +56,7 @@ paths:
   /Categoria/{id}:
     get:
       tags:
-        - Produto
+        - Categoria
       summary: Recupera uma categoria do banco de dados através de um parâmetro {id}
       parameters:
       - name: id
@@ -78,7 +78,7 @@ paths:
           
     put:
       tags:
-        - Produto
+        - Categoria
       summary: Atualiza uma categoria do banco de dados através de um parâmetro {id}
       parameters:
       - name: id
@@ -102,8 +102,8 @@ paths:
     
     delete:
       tags:
-        - Produto
-      summary: Deleta uma categoria 
+        - Categoria
+      summary: Remove uma categoria 
       parameters:
       - name: id
         in: path
@@ -114,17 +114,113 @@ paths:
           
       responses: 
         204: 
-          description: Sem conteudo
+          description: Categoria excluído com sucesso
         400:
           description: Falha ao remover o produto
-security: 
+  /Produto:
+    get:
+      tags:
+        - Produto
+      summary: Recupera todos os produtos do banco de dados
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/produto' 
+        404:
+          description: Produtos não encontrados
+    post:
+        tags:
+          - Produto
+        summary: Adiciona um produto no banco de dados
+        requestBody:
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/produto' 
+                
+        responses:
+          201:
+            description: "Sucesso"
+            content: 
+              application/json:
+                schema: 
+                  $ref: '#/components/schemas/produto'
+  /Produtos:{id}:
+    get:
+      tags:
+       - Produto
+      summary: Recupera um produto do banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: ID do produto a ser buscado
+        required: true
+        schema:
+          type: integer
+              
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/produto' 
+        404:
+          description: Produtos não encontrados
+    
+    put:
+      tags:
+         - Produto
+      summary: Atualiza dados de um produto do banco de dados através de um parâmetro
+      
+    
+    delete:
+      tags:
+        - Produto
+      summary: Remove um produto
+      parameters: 
+      - name: id
+        in: path
+        description: Id do produto a ser excluído
+        required: true
+        schema:
+          type: integer
+      
+      responses:
+        204:
+          description: Produto excluído com sucesso
+        404: Produto não encontrado
+    
+
 components:
   schemas:
     categoria:
-        type: object
-        properties:
-            Id:
-                type: integer
-            nome:
-                type: string
-      
+      type: object
+      properties:
+        Id:
+          type: integer
+        nome:
+          type: string
+    produto:
+      type: object
+      properties:
+        Id:
+          type: string
+        Bairro:
+          type: string
+        Cidade:
+          type: string
+        Complemento:
+          type: string
+        Estado:
+          type: string
+        Rua:
+          type: string
+        Numero:
+          type: integer
+  
