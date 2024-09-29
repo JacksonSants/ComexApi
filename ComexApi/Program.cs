@@ -22,7 +22,9 @@ builder.Services.AddSwaggerGen(c =>
     {
         Version = "v1",
         Title = "Comex API",
-        Description = "API de E-commerce para vendas de produtos.",
+        Description = "O projeto é uma plataforma de e-commerce voltada para a venda de produtos de diferentes categorias." +
+        "Ele permite o gerenciamento completo de produtos, clientes e categorias, oferecendo operações CRUD para cada " +
+        "entidade. O sistema também permite que clientes façam pedidos, visualizem produtos e gerenciem seus próprios dados.",
         TermsOfService = new Uri("https://localhost:7118/swagger/index.html"),
         Contact = new OpenApiContact
         {

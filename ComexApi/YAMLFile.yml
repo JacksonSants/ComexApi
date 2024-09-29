@@ -6,11 +6,11 @@ info:
   contact:
     email: jacksondiego@gamil.com
   license:
-    name: Apache
+    name: Maven Apache
     url: http://www.apache.org/licenses
   version: v1
 externalDocs:
-  description: Documentação
+  description: Documentação para desenvolvimento front-end
   url: http://www.apache.org
 servers:
   - url: https://localhost:7118
@@ -21,7 +21,7 @@ paths:
     get:
       tags:
         - Categoria
-      summary: Recupera todos os produtos do banco de dados
+      summary: Recupera todas as categorias do banco de dados
       responses: 
         200: 
           description: Sucesso
@@ -30,18 +30,18 @@ paths:
               schema: 
                 type: array
                 items: 
-                  $ref: '#/components/schemas/categoria' 
+                  $ref: '#/components/schemas/ReadCategoriaDto' 
         404:
-          description: Produtos não encontrados
+          description: Categoria não encontrados
     post:
       tags:
         - Categoria
-      summary: Adiciona um produto no banco de dados
+      summary: Adiciona uma categoria no banco de dados
       requestBody:
         content:
           application/json: 
             schema:
-              $ref: '#/components/schemas/categoria' 
+              $ref: '#/components/schemas/CreateCategoriaDto' 
               
       responses:
         201:
@@ -49,7 +49,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: '#/components/schemas/categoria' 
+                $ref: '#/components/schemas/CreateCategoriaDto'  
         400:
           description: "Falha ao criar categoria"
           
@@ -61,7 +61,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID do produto a ser buscado
+        description: "Id a ser recuperado"
         required: true
         schema:
           type: integer
@@ -72,9 +72,9 @@ paths:
           content: 
             application/json:
               schema: 
-                 $ref: '#/components/schemas/categoria' 
+                 $ref: '#/components/schemas/ReadCategoriaDto' 
         404:
-          description: Produtos não encontrados
+          description: "Categoria não encontrados"
           
     put:
       tags:
@@ -83,7 +83,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID da categoria a ser atualizado
+        description: Id atualizado
         required: true
         schema:
           type: integer
@@ -92,13 +92,13 @@ paths:
         content:
           application/json: 
             schema:
-              $ref: '#/components/schemas/categoria' 
+              $ref: '#/components/schemas/CreateCategoriaDto' 
               
       responses: 
         204: 
-          description: Sem conteudo
-        400:
-          description: Falha ao atualizar o produto
+          description: "Sem conteudo"
+        404:
+          description: "Categoria não encontrada"
     
     delete:
       tags:
@@ -107,16 +107,16 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID da categoria a ser excluído
+        description: Id a ser excluído
         required: true
         schema:
           type: integer
           
       responses: 
         204: 
-          description: Categoria excluído com sucesso
-        400:
-          description: Falha ao remover o produto
+          description: "Categoria excluído com sucesso"
+        404:
+          description: "Categoria não encontrada"
           
   /Endereco:
     get:
@@ -131,9 +131,7 @@ paths:
               schema:
                 type: array
                 items: 
-                  $ref: '#/components/schemas/endereco' 
-        404:
-          description: Endereoo não encontrados
+                  $ref: '#/components/schemas/ReadEnderecoDto'
     post:
         tags:
           - Endereco
@@ -142,7 +140,7 @@ paths:
           content:
             application/json: 
               schema:
-                $ref: '#/components/schemas/endereco' 
+                $ref: '#/components/schemas/CreateEnderecoDto' 
                 
         responses:
           201:
@@ -150,9 +148,11 @@ paths:
             content: 
               application/json:
                 schema: 
-                  $ref: '#/components/schemas/endereco'
+                  $ref: '#/components/schemas/CreateEnderecoDto'
+          500: 
+            description: "Erro ao cadastrar categoria"
                   
-  /Produtos:{id}:
+  /Endereco:{id}:
     get:
       tags:
        - Endereco
@@ -160,7 +160,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID do endereco a ser buscado
+        description: Id a ser buscado
         required: true
         schema:
           type: integer
@@ -171,7 +171,10 @@ paths:
           content: 
             application/json:
               schema: 
-                 $ref: '#/components/schemas/endereco' 
+                 $ref: '#/components/schemas/ReadEnderecoDto'
+        404:
+          description: "Endereço não encontrado"
+        
     put:
       tags:
         - Endereco
@@ -179,7 +182,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: ID do endereco a ser atualizado
+        description: Id a ser atualizado
         required: true
         schema:
           type: integer
@@ -188,14 +191,16 @@ paths:
         content:
           application/json: 
             schema:
-              $ref: '#/components/schemas/endereco' 
+              $ref: '#/components/schemas/CreateEnderecoDto' 
               
       responses: 
         204:
-          description: Endereco atualizado com sucesso
-        400:
-          description: Falha ao atualizar o endereco
-    
+          description: "Endereco atualizado com sucesso"
+        404: 
+          description: "Endereç não encontrado"
+        500:
+          description: "Erro ao cadastar endereço"
+          
     delete:
       tags:
         - Endereco
@@ -203,22 +208,23 @@ paths:
       parameters: 
       - name: id
         in: path
-        description: Id do endereco a ser excluído
+        description: Id a ser excluído
         required: true
         schema:
           type: integer
       
       responses: 
         204: 
-          description: Endereco excluído com sucesso
-        400:
-          description: Falha ao remover o endereco
+          description: "Endereco excluído com sucesso"
+        404:
+          description: "Endereço não encontrado"
+        
           
   /Cliente:
     get:
       tags:
-        - Endereco
-      summary: Recupera todos os cliente do banco de dados
+        - Cliente
+      summary: Recupera todos os clientes do banco de dados
       responses: 
         200: 
           description: Sucesso
@@ -227,7 +233,8 @@ paths:
               schema: 
                 type: array
                 items: 
-                  $ref: '#/components/schemas/cliente'
+                  $ref: '#/components/schemas/ReadClienteDto'
+                  
     post:
         tags:
           - Cliente
@@ -236,25 +243,27 @@ paths:
           content:
             application/json: 
               schema:
-                $ref: '#/components/schemas/cliente' 
+                $ref: '#/components/schemas/CreateClienteDto' 
                 
         responses:
           201:
-            description: "Sucesso"
+            description: Sucesso
             content: 
               application/json:
                 schema: 
-                  $ref: '#/components/schemas/cliente'
+                  $ref: '#/components/schemas/CreateClienteDto'
+          500: 
+            description: "Erro ao cadastrar cliente"
                   
   /Cliente:{id}:
     get:
       tags:
-       - Endereco
+       - Cliente
       summary: Recupera um cliente do banco de dados através de um parâmetro {id}
       parameters:
       - name: id
         in: path
-        description: ID do cliente a ser buscado
+        description: Id a ser buscado
         required: true
         schema:
           type: integer
@@ -265,9 +274,10 @@ paths:
           content: 
             application/json:
               schema: 
-                 $ref: '#/components/schemas/cliente' 
+                 $ref: '#/components/schemas/ReadClienteDto' 
         404:
-          description: Cliente não encontrados
+          description: "Cliente não encontrados"
+          
     put:
       tags:
         - Cliente
@@ -275,7 +285,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: Id do cliente a ser atualizado
+        description: Id a ser atualizado
         required: true
         schema:
           type: integer
@@ -284,14 +294,16 @@ paths:
         content:
           application/json: 
             schema:
-              $ref: '#/components/schemas/cliente' 
+              $ref: '#/components/schemas/CreateClienteDto' 
               
       responses: 
         204:
-          description: Cliente atualizado com sucesso
-        400:
-          description: Falha ao atualizar o clente
-    
+          description: "Cliente atualizado com sucesso"
+        404:
+          description: "Cliente não encontrado"
+        500:
+          description: "Erro ao cadastrar cliente"
+          
     delete:
       tags:
         - Cliente
@@ -299,32 +311,165 @@ paths:
       parameters: 
       - name: id
         in: path
-        description: Id do cliente a ser excluído
+        description: Id a ser excluído
         required: true
         schema:
           type: integer
       
       responses: 
         204: 
-          description: Cliente excluído com sucesso
-        400:
-          description: Falha ao remover o cliente
-          
+          description: "Cliente excluído com sucesso"
+        404:
+          description: "Cliente não encontrado"
   
-        
+  /Produto:
+    get:
+      tags:
+        - Produto
+      summary: Recupera todos os produtos do banco de dados
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/ReadClienteDto'
+                  
+    post:
+        tags:
+          - Produto
+        summary: Adiciona um produto no banco de dados
+        requestBody:
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/CreateProdutoDto' 
+                
+        responses:
+          201:
+            description: Sucesso
+            content: 
+              application/json:
+                schema: 
+                  $ref: '#/components/schemas/ReadProdutoDto'
+          500: 
+            description: "Erro ao cadastrar produto"
+  
+  /Produto:{id}:
+    get:
+      tags:
+       - Produto
+      summary: Recupera um produto do banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: Id a ser buscado
+        required: true
+        schema:
+          type: integer
+              
+      responses: 
+        200: 
+          description: Sucesso
+          content: 
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ReadProdutoDto' 
+        404:
+          description: "Produto não encontrados"
+          
+    put:
+      tags:
+        - Produto
+      summary: Atualiza um cliente no banco de dados através de um parâmetro {id}
+      parameters:
+      - name: id
+        in: path
+        description: Id a ser atualizado
+        required: true
+        schema:
+          type: integer
+            
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/CreateProdutoDto' 
+              
+      responses: 
+        204:
+          description: "Produto atualizado com sucesso"
+        404:
+          description: "produto não encontrado"
+        500:
+          description: "Erro ao cadastrar Produto"
+          
+    delete:
+      tags:
+        - Produto
+      summary: Remove um produto do banco dados através de um parâmetro {id}
+      parameters: 
+      - name: id
+        in: path
+        description: Id a ser excluído
+        required: true
+        schema:
+          type: integer
+      
+      responses: 
+        204: 
+          description: "Produto excluído com sucesso"
+        404:
+          description: "produto não encontrado"
+  
 components:
   schemas:
-    categoria:
+    ReadCategoriaDto:
       type: object
       properties:
         Id:
           type: integer
         nome:
           type: string
-    endereco:
+        Produto:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateProdutoDto'
+    
+    CreateCategoriaDto:
       type: object
       properties:
-        Id:
+        nome:
+          type: string
+    
+    Categoria:
+      type: object
+      properties:
+        nome:
+          type: string
+          
+    CreateEnderecoDto:
+      type: object
+      properties:
+        Bairro:
+          type: string
+        Cidade:
+          type: string
+        Complemento:
+          type: string
+        Estado:
+          type: string
+        Rua:
+          type: string
+        Numero:
+          type: integer
+          
+    ReadEnderecoDto:
+      type: object
+      properties:
+        Id: 
           type: string
         Bairro:
           type: string
@@ -338,7 +483,57 @@ components:
           type: string
         Numero:
           type: integer
-    cliente:
+        Cliente:
+          type: object
+          properties:
+            Id:
+              type: string
+            Nome:
+              type: string
+            CPF:
+              type: string
+            Email:
+              type: string
+            Profissao:
+              type: string
+            Telefone:
+              type: string
+            EnderecoId:
+              type: integer
+    
+    Endereco:
+      type: object
+      properties:
+        Bairro:
+          type: string
+        Cidade:
+          type: string
+        Complemento:
+          type: string
+        Estado:
+          type: string
+        Rua:
+          type: string
+        Numero:
+          type: integer
+          
+    CreateClienteDto:
+      type: object
+      properties:
+        Nome:
+          type: string
+        CPF:
+          type: string
+        Email:
+          type: string
+        Profissao:
+          type: string
+        Telefone:
+          type: string
+        EnderecoId:
+          type: integer
+    
+    ReadClienteDto:
       type: object
       properties:
         Id:
@@ -355,4 +550,72 @@ components:
           type: string
         EnderecoId:
           type: integer
-  
+          
+    Cliente:
+      type: object
+      properties:
+        Nome:
+          type: string
+        CPF:
+          type: string
+        Email:
+          type: string
+        Profissao:
+          type: string
+        Telefone:
+          type: string
+        EnderecoId:
+          type: integer
+    
+    CreateProdutoDto:
+      type: object
+      properties:
+        Nome:
+          type: string
+        Descricao:
+          type: string
+        Precounitario:
+          type: integer
+        Profissao:
+          type: string
+        Quantidade:
+          type: integer
+        cliente:
+          type: integer
+        
+    Produto:
+      type: object
+      properties:
+        Id:
+          type: string
+        Nome:
+          type: string
+        Descricao:
+          type: string
+        Precounitario:
+          type: integer
+        Profissao:
+          type: string
+        Quantidade:
+          type: integer
+        cliente:
+          type: integer
+          
+    ReadProdutoDto:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Nome:
+          type: string
+        Descricao:
+          type: string
+        Precounitario:
+          type: integer
+        Profissao:
+          type: string
+        Quantidade:
+          type: integer
+        cliente:
+          type: integer
+          
