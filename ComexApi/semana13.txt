@@ -1,0 +1,94 @@
+﻿CONHECENDO A ARQUITERURA
+Aplicação monolítica
+Em uma aplicação monolítica, todas essas funcionalidades estão interligadas e dependem umas das outras, como um único bloco de código. Podemos pensar em um bolo de chocolate com cobertura de morango. Se você quiser mudar a receita do bolo, precisa mexer em toda a massa, incluindo a cobertura. Da mesma forma, em uma aplicação monolítica, qualquer alteração em uma funcionalidade pode afetar todo o sistema. Um aplicação monolítica pode fazar, cadastros, financeira, outros conteúdos etc, isso tudo em uma única grande aplicação.
+Problemas:
+    • Demora de deploy
+    • Falha podem derrubar o sistema todo
+    • 1 projeto = 1 tecnologia
+Arquitetura de Microsserviços.
+Cada funcionalidades/processo dentro do sistema possui funcionalidades diferente (serviço) com uma responsabilidade bem definida. Assim, da mesma forma o armazenamento de dados dos microsserviços são armazenados em banco de dados diferente, ouseja cada serviços possui seu próprio banco de dados.
+Microsserviços
+Microsserviços são uma abordagem arquitetônica e organizacional do desenvolvimento de software na qual o sofware consiste e pequenos serviços independentes que se comunicam usando APIs bem definidades. Esses serviços pertencem a pequenas equipes autosuficientes.
+Vantagens
+    • Projetos independente
+    • Falha em 1 serviços é isolada
+    • Deploy menores e ais rápido
+Vantagens
+    • Maior complexidade de desenvolvimento
+    • Debug mais complexo
+    • Comunicação entre serviços devem ser bem definida
+    • Diversas tecnologias pode ser um problema
+    • Monitoramento é crucial e mais complexo
+Quando utilizar?
+
+Tipos de serviços
+    • Data service
+	Serviço de dados. Um data service é um tipo de serviço que simplesmente expõe dados, funcionando como uma camada fina entre os usuários e o banco de dados. Sua 	unção principal é receber dados e realizar o processamento necessário para manter a  consistência desses dados.
+    • Business service
+	Serviço de negócio. é um tipo de serviço que, além de consumir dados de alguma 	orma, seja consumindo um data service ou tendo ele acesso direto a um banco de dados, ele fornece operações mais complexas.
+    • Translation service
+	Formas e controle de serviços. Basicamente, uma forma de acessar algum recurso externo, mas mantendo certo controle.
+    • Edge service
+	Serviço de ponta. Um edge service, como o nome já diz, é algo que é entregue diretamente para o cliente e pode ter necessidades específicas.
+SEPARANDO SERVIÇOS
+Serviço de Domínio
+    • Domain-driven Design
+    • Comece modelando o domínio, sem pensar na persistência
+    • Avalie as ações que serão disponibilizada
+    • contrua o serviço, pensando primeiro no contrato
+    • REST e RPC podem andar juntos
+Serviço de negócio
+    • Proveem uma funcionalidade do negócio de mais alto nível
+    • Permite encapsular domínios relacionados
+Criação de um serviço de negócio
+    • Identificar o processo que você pretende expor
+    • Identificar os domínios que serão necessários nesse seviço
+    • Defina a API que será utilizada, focando no domínio e não nos dados
+    • Consuma serviços de domínio para executar os processos
+Strangler Pattern
+O Strangler Pattern consiste em extrair partes do monolíto de forma gradual, como se estivéssemos estrangulando o monolíto até que ele se desfaça em pequenos serviços independentes.
+    • Quebrar um monolíto, tirando suas funcionalidades
+    • Isolar os dados
+    • Isolando domínio
+Esse processo de estrangulamento nos permite separar os domínios e os processos do monolíto em serviços independentes, até que ele se torne uma coleção de serviços menores. Com isso, alcançamos uma arquitetura mais modular e escalável, compatível com microsserviços.
+Sidecar Pattern
+O Sidecar Pattern consiste em determinar o processo comum e criar um módulo compartilhável que pode ser integrado aos diversos serviços. Esse módulo contém o código comum a ser compartilhado entre os serviços, permitindo que atualizações no código sejam replicadas em todos os serviços de forma eficiente.
+    • Determine o processo comum
+    • Módulo compartilhável
+    • Aplicação de sidecar nos serviços que precisam
+Para implementar esse padrão, podemos criar pacotes independentes para diferentes linguagens de programação, como pacotes no NPM para Node.js, no Composer para PHP ou no Maven/Gradle para Java. Assim, podemos compartilhar código entre os serviços sem a necessidade de criar um serviço exclusivamente para isso
+INTEGRANDO SERVIÇOS
+API Gateway
+O ponto de entrada controla o acesso aos serviços da API. Imagine que você está em um prédio com vários andares, cada um com um serviço diferente. O ponto de entrada seria a recepção, onde você informa para qual andar deseja ir.
+O Gateway, esse portão de entrada, fornece um proxy ou uma fachada, algo que você visualiza de forma simplificada para as necessidades reais. Um API gateway pode ser um serviço externo, um servidor web. A forma como será implementado depende, mas, o objetivo é ter um portão de entrada, um ponto que saberá como organizar o fluxo de determinada operação, serviço ou acesso.
+Essa centralização facilita a vida do cliente, pois ele não precisa saber qual serviço é responsável para cada informação. Além disso, a API Gateway pode realizar outras funções importantes, como:
+    • Autenticação: Verificar se o cliente está logado e autorizado a acessar o serviço.
+    • Autorização: Verificar se o cliente tem permissão para acessar o serviço.
+    • Roteamento: Direcionar a requisição para o serviço correto.
+    • Transformação de dados: Adaptar a requisição para o formato que o serviço espera.
+    • Cache: Armazenar dados em cache para melhorar o desempenho.
+Agregador de processos/Process aggregator patern
+Um serviço de negócio agrega vários serviços de domínio para termos um processo completo. Já um agregador de processos é algo que precisamos para agregar diversos desses processos.
+    • Serviços de negócio agregam serviços de domínio
+    • Process aggregators agregam serviços de negócio
+    • Agregadores fazem chamadas para os serviços necessários e montam a resposta
+    • Deve ter lógica de processamento
+Construção de um agregador
+    • Definição de um novo modelo para representar os dados agregados
+    • Este modelo define-se a API e suas operações
+Edge Pattern
+Como comentamos, existe um tipo de serviço um pouco mais próximo do cliente. Isso é basicamente um gateway específico para determinadas pessoas clientes, que vai se concentrar nas necessidades reais das pessoas clientes, desta forma podemos ter gateway específicos para determinados serviços oferecidos em arquiteturas diferentes (site, mobile).
+Construção de ponta
+    • Identificar as necessidades dos clientes
+    • Contratos específicos para cliente
+    • Modificação de dados para serem otimizados (Sites ≠ Mobile)
+    • Possibilidades de Edges, e não Gateway.
+Com o Edge Service nos adequamos as pessoas clientes para o processo ser otimizado, assim evitamos consumir bandas desnecessárias no celular e para não faltar informação para a web.
+LIDANDOS COM OS DADOS
+Single service database
+O ideal é seguir o conceito de Single Service Database (Banco de Dados de Serviço Único), onde cada serviço possui seu próprio banco de dados dedicado. Isso permite uma escalabilidade mais granular, pois podemos ajustar os recursos do banco de dados de acordo com as necessidades específicas de cada serviço.
+    • Problema: Escalabilidade do serviço e banco são fortemente relacionados.
+    • Solução: Cada serviço terá seu próprio banco de dados
+Shared service datase
+Por exigências contratuais ou necessidades de integração de dados, pode ser necessário adotar o Shared Service Database (Banco de Dados de Serviço Compartilhado). No shared service database o melhor cenários ao compartilha o banco de dados é tratar cada serviço de maneira diferente, a forma de acesso a ele será de maneira distinta, posteriormente facilitará a manutenção, escalabilidades e impacto de alterações.
+    • Problema: Às vezes precisamos centralizar os dados (até por motivos contratuais)
