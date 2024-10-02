@@ -15,6 +15,7 @@ Microsserviços são uma abordagem arquitetônica e organizacional do desenvolvi
 e pequenos serviços independentes que se comunicam usando APIs bem definidades. Esses serviços pertencem a pequenas equipes
 autosuficientes.
 Vantagens
+
     • Projetos independente
     • Falha em 1 serviços é isolada
     • Deploy menores e ais rápido
