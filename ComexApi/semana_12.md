@@ -20,6 +20,7 @@ Vantagens
     • Falha em 1 serviços é isolada
     • Deploy menores e ais rápido
 Vantagens
+
     • Maior complexidade de desenvolvimento
     • Debug mais complexo
     • Comunicação entre serviços devem ser bem definida
@@ -27,6 +28,7 @@ Vantagens
     • Monitoramento é crucial e mais complexo
 
 Tipos de serviços
+
     • Data service
 	Serviço de dados. Um data service é um tipo de serviço que simplesmente expõe dados, funcionando como uma camada 
     fina entre os usuários e o banco de dados. Sua 	unção principal é receber dados e realizar o processamento necessário 
