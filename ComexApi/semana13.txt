@@ -1,65 +1,89 @@
 ﻿CONHECENDO A ARQUITERURA
+Funcionamento da web
+Clientes são dispositivos conectados à internet dos usuários da web como computadores e dispositivos móveis, 
+esses dispositivos usam navegadores para acessar a internet como Firefox ou Chrome.
+Servidores são computadores que armazenam páginas, sites ou aplicativos. São os quais recebem as requisições 
+dos clientes, processão e devolvem uma resposta em formato de HTML (sites).
+
 Aplicação monolítica
-Em uma aplicação monolítica, todas essas funcionalidades estão interligadas e dependem umas das outras, como um único bloco de código. Podemos pensar em um bolo de chocolate com cobertura de morango. Se você quiser mudar a receita do bolo, precisa mexer em toda a massa, incluindo a cobertura. Da mesma forma, em uma aplicação monolítica, qualquer alteração em uma funcionalidade pode afetar todo o sistema. Um aplicação monolítica pode fazar, cadastros, financeira, outros conteúdos etc, isso tudo em uma única grande aplicação.
+Em uma aplicação monolítica, todas essas funcionalidades estão interligadas e dependem umas das outras, como um únic0 bloco de código. Podemos pensar em um bolo de chocolate com cobertura de morango. Se você quiser mudar a receita do bolo, precisa mexer em toda a massa, incluindo a cobertura. Da mesma forma, em uma aplicação monolítica, qualquer alteração em uma funcionalidade pode afetar todo o sistema. Uma aplicação monolítica pode fazar, cadastros, financeira, outros conteúdos etc, isso tudo em uma única grande aplicação.
+
 Problemas:
     • Demora de deploy
     • Falha podem derrubar o sistema todo
     • 1 projeto = 1 tecnologia
+
 Arquitetura de Microsserviços.
-Cada funcionalidades/processo dentro do sistema possui funcionalidades diferente (serviço) com uma responsabilidade bem definida. Assim, da mesma forma o armazenamento de dados dos microsserviços são armazenados em banco de dados diferente, ouseja cada serviços possui seu próprio banco de dados.
+Cada funcionalidades/processo dentro do sistema possui funcionalidades diferente (serviço) com uma responsabilidade
+bem definida. Assim, da mesma forma o armazenamento de dados dos microsserviços são armazenados em banco de dados diferente, ou seja, cada serviços possui seu próprio banco de dados.
+
 Microsserviços
-Microsserviços são uma abordagem arquitetônica e organizacional do desenvolvimento de software na qual o sofware consiste e pequenos serviços independentes que se comunicam usando APIs bem definidades. Esses serviços pertencem a pequenas equipes autosuficientes.
+Microsserviços são uma abordagem arquitetônica e organizacional do desenvolvimento de software na qual o software consiste e pequenos serviços independentes que se comunicam usando APIs bem definidas. Esses serviços pertencem a pequenas equipes autossuficientes.
 Vantagens
     • Projetos independente
-    • Falha em 1 serviços é isolada
+    • Falha em serviços é isolada
     • Deploy menores e ais rápido
-Vantagens
+Desvantagem
     • Maior complexidade de desenvolvimento
     • Debug mais complexo
     • Comunicação entre serviços devem ser bem definida
     • Diversas tecnologias pode ser um problema
     • Monitoramento é crucial e mais complexo
-Quando utilizar?
 
 Tipos de serviços
     • Data service
 	Serviço de dados. Um data service é um tipo de serviço que simplesmente expõe dados, funcionando como uma camada fina entre os usuários e o banco de dados. Sua 	unção principal é receber dados e realizar o processamento necessário para manter a  consistência desses dados.
     • Business service
-	Serviço de negócio. é um tipo de serviço que, além de consumir dados de alguma 	orma, seja consumindo um data service ou tendo ele acesso direto a um banco de dados, ele fornece operações mais complexas.
+	Serviço de negócio é um tipo de serviço que, além de consumir dados de alguma forma, seja consumindo um data service ou tendo ele acesso direto a um banco de dados, ele fornece operações mais complexas.
     • Translation service
 	Formas e controle de serviços. Basicamente, uma forma de acessar algum recurso externo, mas mantendo certo controle.
     • Edge service
 	Serviço de ponta. Um edge service, como o nome já diz, é algo que é entregue diretamente para o cliente e pode ter necessidades específicas.
+
+
 SEPARANDO SERVIÇOS
 Serviço de Domínio
-    • Domain-driven Design
-    • Comece modelando o domínio, sem pensar na persistência
-    • Avalie as ações que serão disponibilizada
-    • contrua o serviço, pensando primeiro no contrato
+O serviço de domínio em microsserviços refere-se a uma abordagem que foca na modelagem e organização do código 
+com base nos domínios de negócio. Desta forma é possível modelar e separar sistemas complexos em microsserviços menores. 
+      Domain-driven Design
+      O DDD (design orientado por domínio) fornece uma estrutura que pode ajudar na maior parte do processo de obtenção de um conjunto de microsserviços bem projetado. A primeira fase do DDD(estratégico) define a estrutura em grande escala do sistema. O tático fornece um conjunto de padrões de design que usa-se para criar o modelo de domínio.
+    • Modele o domínio, sem pensar na persistência
+    • Avalie as ações que serão disponibilizadas
+    • Construa o serviço, pensando primeiro no contrato
     • REST e RPC podem andar juntos
 Serviço de negócio
     • Proveem uma funcionalidade do negócio de mais alto nível
     • Permite encapsular domínios relacionados
 Criação de um serviço de negócio
     • Identificar o processo que você pretende expor
-    • Identificar os domínios que serão necessários nesse seviço
+    • Identificar os domínios que serão necessários nesse serviço
     • Defina a API que será utilizada, focando no domínio e não nos dados
     • Consuma serviços de domínio para executar os processos
+
 Strangler Pattern
-O Strangler Pattern consiste em extrair partes do monolíto de forma gradual, como se estivéssemos estrangulando o monolíto até que ele se desfaça em pequenos serviços independentes.
-    • Quebrar um monolíto, tirando suas funcionalidades
+O Strangler Pattern consiste em extrair partes de um monolito de forma gradual, como se estivéssemos estrangulando 
+a aplicação até que se desfaçam em pequenos serviços independentes.
+    • Quebrar uma aplicação monolítica, tirando suas funcionalidades
     • Isolar os dados
     • Isolando domínio
-Esse processo de estrangulamento nos permite separar os domínios e os processos do monolíto em serviços independentes, até que ele se torne uma coleção de serviços menores. Com isso, alcançamos uma arquitetura mais modular e escalável, compatível com microsserviços.
+Esse processo de estrangulamento nos permite separar os domínios e os processos de monolito em serviços independentes, até que ele se torne uma coleção de serviços menores. Com isso, alcançamos uma arquitetura mais modular e escalável, compatível com microsserviços.
+
 Sidecar Pattern
 O Sidecar Pattern consiste em determinar o processo comum e criar um módulo compartilhável que pode ser integrado aos diversos serviços. Esse módulo contém o código comum a ser compartilhado entre os serviços, permitindo que atualizações no código sejam replicadas em todos os serviços de forma eficiente.
-    • Determine o processo comum
+    • Determinar o processo comum
     • Módulo compartilhável
     • Aplicação de sidecar nos serviços que precisam
-Para implementar esse padrão, podemos criar pacotes independentes para diferentes linguagens de programação, como pacotes no NPM para Node.js, no Composer para PHP ou no Maven/Gradle para Java. Assim, podemos compartilhar código entre os serviços sem a necessidade de criar um serviço exclusivamente para isso
+Para implementar esse padrão, podemos criar pacotes independentes para diferentes linguagens de programação, como pacotes no NPM para Node.js, no Composer para PHP ou no Maven/Gradle para Java. Assim, podemos compartilhar código entre os serviços sem a necessidade de criar um serviço exclusivamente para isso.
+
+Quebrar um monolito em microsserviços pode trazer muitos benefícios, mas também apresenta vários desafios. Aqui estão alguns dos principais desafios, como:
+    • Gerenciamento de dados
+    • Comunicação entre serviços
+    • Monitoramento
+    • Teste
+
 INTEGRANDO SERVIÇOS
 API Gateway
-O ponto de entrada controla o acesso aos serviços da API. Imagine que você está em um prédio com vários andares, cada um com um serviço diferente. O ponto de entrada seria a recepção, onde você informa para qual andar deseja ir.
+API Gateway é ponto de entrada controla o acesso aos serviços da API. Imagine que você está em um prédio com vários andares, cada um com um serviço diferente. O ponto de entrada seria a recepção, onde você informa para qual andar deseja ir?
 O Gateway, esse portão de entrada, fornece um proxy ou uma fachada, algo que você visualiza de forma simplificada para as necessidades reais. Um API gateway pode ser um serviço externo, um servidor web. A forma como será implementado depende, mas, o objetivo é ter um portão de entrada, um ponto que saberá como organizar o fluxo de determinada operação, serviço ou acesso.
 Essa centralização facilita a vida do cliente, pois ele não precisa saber qual serviço é responsável para cada informação. Além disso, a API Gateway pode realizar outras funções importantes, como:
     • Autenticação: Verificar se o cliente está logado e autorizado a acessar o serviço.
@@ -68,7 +92,7 @@ Essa centralização facilita a vida do cliente, pois ele não precisa saber qua
     • Transformação de dados: Adaptar a requisição para o formato que o serviço espera.
     • Cache: Armazenar dados em cache para melhorar o desempenho.
 Agregador de processos/Process aggregator patern
-Um serviço de negócio agrega vários serviços de domínio para termos um processo completo. Já um agregador de processos é algo que precisamos para agregar diversos desses processos.
+Um serviço de negócio agrega vários serviços de domínio para termos um processo completo. Já um agregador de processos é algo que precisamos para agregar diversos desses processos. O padrão de design recebe uma solicitação do cliente ou Gateways de API, e então despacha pedidos de múltiplos microsserviços, e então combina os resultados e responde de volta para a solicitação inicial de resposta. 
     • Serviços de negócio agregam serviços de domínio
     • Process aggregators agregam serviços de negócio
     • Agregadores fazem chamadas para os serviços necessários e montam a resposta
@@ -76,19 +100,140 @@ Um serviço de negócio agrega vários serviços de domínio para termos um proc
 Construção de um agregador
     • Definição de um novo modelo para representar os dados agregados
     • Este modelo define-se a API e suas operações
+
 Edge Pattern
-Como comentamos, existe um tipo de serviço um pouco mais próximo do cliente. Isso é basicamente um gateway específico para determinadas pessoas clientes, que vai se concentrar nas necessidades reais das pessoas clientes, desta forma podemos ter gateway específicos para determinados serviços oferecidos em arquiteturas diferentes (site, mobile).
+Existe um tipo de serviço um pouco mais próximo do cliente. Isso é basicamente um gateway específico para determinadas pessoas clientes, que vai se concentrar nas necessidades reais das pessoas clientes, desta forma podemos ter gateway específicos para determinados serviços oferecidos em arquiteturas diferentes (site, mobile).
 Construção de ponta
     • Identificar as necessidades dos clientes
     • Contratos específicos para cliente
     • Modificação de dados para serem otimizados (Sites ≠ Mobile)
     • Possibilidades de Edges, e não Gateway.
 Com o Edge Service nos adequamos as pessoas clientes para o processo ser otimizado, assim evitamos consumir bandas desnecessárias no celular e para não faltar informação para a web.
-LIDANDOS COM OS DADOS
+O uso de um API Gateway em uma arquitetura de microsserviços pode ser benéfica em vários cenários:
+    • Autenticação
+    • Controle de requisição
+    • Monitoramento de logs
+    • Performance
+
+LIDANDO COM OS DADOS
 Single service database
-O ideal é seguir o conceito de Single Service Database (Banco de Dados de Serviço Único), onde cada serviço possui seu próprio banco de dados dedicado. Isso permite uma escalabilidade mais granular, pois podemos ajustar os recursos do banco de dados de acordo com as necessidades específicas de cada serviço.
+Em Single Service Database (Banco de Dados de Serviço Único), cada serviço possui seu próprio banco de dados dedicado. Isso permite uma escalabilidade mais granular, pois podemos ajustar os recursos do banco de dados de acordo com as necessidades específicas de cada serviço.
     • Problema: Escalabilidade do serviço e banco são fortemente relacionados.
     • Solução: Cada serviço terá seu próprio banco de dados
 Shared service datase
 Por exigências contratuais ou necessidades de integração de dados, pode ser necessário adotar o Shared Service Database (Banco de Dados de Serviço Compartilhado). No shared service database o melhor cenários ao compartilha o banco de dados é tratar cada serviço de maneira diferente, a forma de acesso a ele será de maneira distinta, posteriormente facilitará a manutenção, escalabilidades e impacto de alterações.
     • Problema: Às vezes precisamos centralizar os dados (até por motivos contratuais)
+    • Solução: Trate esse banco em cada serviço como se ele fosse separado.
+Padrões de codificação
+CQRS (Command Query Reponsibility Segregation)
+Basicamente, o CQRS é a ideia de que podemos utilizar modelos diferentes para buscar uma informação e para atualizar ou inserir uma informação. Ou seja, modelos diferentes para escrever e para ler. Em algumas situações, essa separação pode ser muito valiosa. Podemos até ter um banco de dados para escrita e outro para leitura, com algum tipo de sincronização entre eles.
+A ideia por trás do CQRS é ter um modelo de escrita e um modelo de leitura. Com os dois separados, cada um pode realizar operações mais complexas. 
+
+Eventos Assíncronos
+Eventos assíncronos são como mensagens que são enviadas sem esperar uma resposta imediata. No mundo dos microsserviços, os eventos assíncronos são usados para comunicar diferentes serviços sem que um precise esperar o outro terminar sua tarefa. Isso é importante para garantir que os serviços sejam rápidos e eficientes, mesmo quando precisam lidar com tarefas complexas.
+Para lidar com eventos assíncronos, tecnologias como filas de mensagens, como RabbitMQ e ZeroMQ, e serviços de streaming de dados, como o Kafka. Essas ferramentas permitem a distribuição eficiente de mensagens assíncronas entre os microsserviços, garantindo escalabilidade e desempenho.
+Vantagens
+    • Integração
+    • Escalabilidade 
+    • Resiliência
+    • 
+Desvantagem
+    • Complexidade
+    • Monitoramento
+Operações
+No entanto, quando falamos em microsserviços, logs se tornam ainda mais importantes. Eles são importantes sempre e devemos realizar logs das operações que ocorrem no nosso domínio. Porém, no contexto de microsserviços, essa importância dobra.
+    • Formato de log DEVEM ser compartilhados entre serviços e com formato único.
+    • Taxonomia comum tornando mais fáceis de serem inspecionados caso ocorra algum problema.
+    • Logs de microsserviços são complicados, uma vez que os serviços independentes podem gerar logs torna a agregação é mais complexa.
+    • A agregação pode ser o parsing dos logs para categorizar
+Precisamos ter um formato padrão para que todos os microsserviços exponham os logs e as informações da mesma forma, de modo que possamos ler como se fosse uma única aplicação.
+Portanto, os formatos de log devem ser compartilhados entre todos os serviços. Não podemos ter um serviço exportando algo e fazendo log de algo em XML, enquanto temos outro no formato binário próprio, outro em TXT, e assim por diante. É necessário um formato único.
+
+Rastreamento de chamadas
+Também precisamos rastrear as chamadas, e é através de logs que fazemos isso.
+Quando depurar-se um problema, analisamos a stack trace, isto é, a pilha de execução, aquele rastro que a execução deixa para avaliarmos o que aconteceu.
+    • Rastreamento de logs
+    • Reconstrução de um modificador
+    • Padrões de trace ID para gerar logs
+    • Call Stack
+    • Ferramento de gerenciamento
+      Apesar desse rastreamento serem importante nos processos, após a aplicação cresce com os microsserviços a complexidade de logs torna-se mais difícil de serem rastreadas. Desta forma, os logs distribuídos apresentam alguns desafios, como:
+        ◦ Rastreamento de Erro
+        ◦ Volume de logs
+        ◦ Análise de rastreamento
+Garantir que a coleta de métricas e logs não afete o desempenho dos microsserviços é crucial para manter a eficiência e a responsividade do sistema com agregando métricas.
+Agregando métricas
+Um dos pontos é que, enquanto logs precisam de desenvolvimento, as métricas "só" precisam de instrumentação. Primeiramente, o que é instrumentação? Significa que precisamos configurar uma ferramenta que já temos no nosso servidor, instalar um novo programa e configurá-lo. As métricas permitem:
+    • Monitoramento de serviços
+    • Divisão de responsabilidades
+    • Construção de dashboard de serviços e serviços específicos
+APMs (Application Performance Manager), temos essas ferramentas que podem nos mostrar um dashboard. A partir dele, conseguimos entender se o conjunto de microsserviços está de pé, em funcionamento, se conseguimos mandar requisições, em quais momentos temos picos, se em determinado horário do dia não há requisição nenhuma, e assim por diante.
+Métricas não podem ser ignoradas; precisamos avaliá-las, tanto para um cenário de operações, que é o foco deste capítulo, quanto para o negócio principalmente.
+Métricas são muito importantes em qualquer sistema, assim como logs. Porém, ao falar de microsserviços, por haver várias aplicações separadas, isso se torna ainda mais crucial quando se trata do ponto de operações.
+
+ARQUITETURA DE MICROSSERVIÇOS
+Componentes de um microsserviços
+Um microsserviço, por si só, não é apenas uma aplicação. Ele é um conjunto de componentes que trabalham em conjunto para oferecer um serviço completo.
+Esses componentes são:
+    • Código: O código-fonte do microsserviço, que define as funcionalidades e regras de negócio.
+    • API: A interface de comunicação do microsserviço com o mundo externo, permitindo que outros sistemas interajam com ele.
+    • Banco de dados: Armazena os dados utilizados pelo microsserviço, garantindo a persistência das informações.
+    • Tarefas agendadas: Processos que são executados em intervalos pré-definidos, como backups, atualizações ou análises de dados.
+    • Processador de mensagens: Permite que o microsserviço receba e processe mensagens de outros sistemas, como eventos ou solicitações.
+    • Cada um desses componentes desempenha um papel crucial no funcionamento do microsserviço, e a forma como eles se conectam e interagem define a arquitetura do serviço.
+ 
+CONTRATOS DE MICROSSERVIÇOS
+Microsserviços são independentes
+Um microsserviços expõem algumas formas de comunicação(uma API). Isso é o contrato entre este serviço e o cliente.
+    • Apenas modificações aditivas
+      Novos endpoints
+      Novos campos e serviços
+    • Versionamento de APIs
+      Mesmo após o lançamento de uma nova versão a aplicação deve continuar funcionando, inalterada.
+    • Manter equipes separadas, ou seja, donas de cada serviço
+      A mesma equipe não vai alterar os clientes.
+      Para adicionar novas funcionalidades que dependa dos outros, solicitações devem ser realizadas.
+Cada um tem suas responsabilidades e precisa se comunicar com os outros para que o trabalho flua. O contrato seria como um manual de instruções que define como cada funcionário deve se comunicar com os outros.
+O contrato define as funcionalidades que o microsserviço oferece, como ele deve ser acessado e o formato das informações que ele recebe e envia.
+Com essas técnicas, podemos garantir que os microsserviços sejam independentes e flexíveis, permitindo que sejam atualizados e modificados sem afetar o funcionamento do sistema como um todo.
+
+Criação de Microsserviços
+Host
+Prismo passo na criação de um microsserviços são a criação de host, basicamente o host ou máquina vai ajudar no processo de otimização e criação de microsserviços, assim, ele se preocupará principalmente  com a infraestrutura para o microsserviço:
+    1. Infraestrutura para desenvolvimento
+    2. Infraestrutura para deploy
+    3. Infraestrutura para teste
+Desta forma, o host é fundamental no processo de criação de um microsserviços de maneira que receber todas as ferramentas necessárias para o desenvolvimento da aplicação.
+Formas de criação de microsserviços
+    • Máquinas virtuais
+    • Sistema em cloud
+    • Containers
+Criação de um microsserviços
+    1. Criação de um repositório para versionamento de código
+    2. Definição criação de microsserviços para um ou vários repositórios
+    3. CI/Cd
+Definição de um padrão de criação
+    • Criação de logs (formato e destino)
+    • Verificação de status
+    • Monitoramento de métricas
+    • Busca de configuração e secrets
+
+Templates
+    • Projeto “esqueleto”.
+    • Script de build
+    • Agilidade e flexibilidade
+Uma das maneiras de agilizar algumas dessas padronizações de criação de microsserviços é a criação de container com configuração pré-definidas. Desta maneira, como uma imagem já pré-definidas precisa-se apenas a criação configuração de codificar e rodar os códigos e containers criados.
+
+Comunicação entre serviços
+Possíveis d problemas abordados
+    • Dependências descontroladas 
+    • Falhas em cascatas
+    • Performances prejudicadas
+Comunicação síncrona
+    • HTTP(API RESTFULL)
+    • gRPC
+    • Protocolos personalizados
+Comunicação assíncrona
+    • CQRS
+    • Eventos
+Com o decorrer do desenvolvimento de uma aplicação em grande escala destaca-se a importância da arquitetura de microsserviços de maneira a garantir a escalabilidade de suas funcionalidades e processos e a importância da divisão de responsabilidades no decorrer do desenvolvimento. Destaca-se também a importância de desenvolvimento de um monolito e sua subdivisão por meio de padrões e separação em microsserviços, e a importância de logs e métricas para garantir a monitoramento de erros.
