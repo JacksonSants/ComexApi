@@ -1,4 +1,4 @@
-namespace ComexApi
+namespace Pedido
 {
     public class WeatherForecast
     {

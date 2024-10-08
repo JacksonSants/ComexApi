@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ComexApi.Controllers
+namespace Pedido.Controllers
 {
     [ApiController]
     [Route("[controller]")]
