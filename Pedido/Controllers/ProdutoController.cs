@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-namespace ComexApi.Model;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
+namespace ComexApi.Model;
 [ApiController]
 [Route("[controller]")]
-public class ItemPedido : ControllerBase
+public class ProdutoController : ControllerBase
 {
     // GET: ItemPedido
     [HttpGet]

@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ComexApi.Model;
-public class Pedido
-{
+namespace Pedido.Model;
+
+public class Pedidos{
     [Key]
     [Required]
     public int Id { get; set; }
@@ -16,7 +14,5 @@ public class Pedido
     [MaxLength(11, ErrorMessage = "Cpf inválido")]
     public string Cpf { get; set; }
 
-    public virtual ICollection<ItemPedido> Items { get; set; }
-
-
+    public virtual ItemPedidoController ItemPedido { get; set; }
 }

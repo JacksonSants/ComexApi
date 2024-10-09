@@ -1,38 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Pedido.AppContext;
 
-namespace ComexApi.Model;
 [ApiController]
 [Route("[controller]")]
-public class Pedido : ControllerBase
+public class ItemPedidoController : ControllerBase
 {
-    // GET: ItemPedido
-    [HttpGet]
-    public ActionResult Index()
+    private IMapper _mapper;
+    private AppDbContext _context;
+
+    public ItemPedidoController(IMapper mapper, AppDbContext context)
     {
-        return Ok();
-    }
-    [HttpGet("{id}")]
-    // GET: ItemPedido/Details/5
-    public ActionResult Details(int id)
-    {
-        return Ok();
+        _mapper = mapper;
+        _context = context;
     }
 
-    // POST: ItemPedido/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
-    {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return Ok();
-        }
-    }
 
     // PUT: ItemPedido/Edit/5
     [HttpPut]

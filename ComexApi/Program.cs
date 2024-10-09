@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Pedido.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
-var pedidoConection = builder.Configuration.GetConnectionString("ConnectionStrings");
+var pedidoConection = builder.Configuration.GetConnectionString("pedidoConection");
 
 // Add services to the container.
 builder.Services.AddControllers();

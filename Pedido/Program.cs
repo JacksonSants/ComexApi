@@ -1,4 +1,15 @@
+using Estoque.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var produtoConection = builder.Configuration.GetConnectionString("produtoConnection");
+
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(opts
+    => opts.UseMySql(produtoConection, ServerVersion.AutoDetect(produtoConection)));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.
 
