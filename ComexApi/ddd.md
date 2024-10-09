@@ -14,10 +14,7 @@
 
 9 -  Explique a diferença entre a camada de domínio e a camada de aplicação em uma arquitetura baseada em DDD.
 
-    Em uma arquitetura baseada em Domain-Driven Design (DDD), a camada de domínio e a camada de aplicação desempenham papéis distintos, porém, interdependentes. 
-    
-    Camada de Domínio
-    Em uma arquitetura baseada em Domain-Driven Design (DDD), a camada de domínio e a camada de aplicação desempenham papéis distintos, mas interdependentes. Compreender essa distinção é fundamental para construir sistemas robustos, escaláveis e alinhados com os requisitos de negócio.
+    Em uma arquitetura baseada em Domain-Driven Design (DDD), a camada de domínio e a camada de aplicação desempenham papéis distintos, porém, interdependentes.
     
     Camada de Domínio
     A camada de domínio representa o núcleo do sistema, encapsulando as regras de negócio, entidades, agregados e valores que definem o problema do domínio.
