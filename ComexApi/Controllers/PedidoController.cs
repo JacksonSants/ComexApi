@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
-using ComexApi.Model;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Pedido.AppContext;
 using Pedido.Data.Dto.CreatePedidoDto;
 using Pedido.Data.Dto.PedidoDto;
 using Pedido.Model;
-using System.Numerics;
 
 [ApiController]
-[Route("[controller]")]
+[Route("v1/[controller]")]
 public class PedidoController : ControllerBase
 {
     private IMapper _mapper;
@@ -21,22 +19,92 @@ public class PedidoController : ControllerBase
         _context = context;
     }
 
-
-    // PUT: ItemPedido/Edit/5
-    [HttpPut]
-    public ActionResult Edit(int id)
+    // GET: v1/Pedido
+    [HttpGet]
+    public ActionResult<IEnumerable<ReadPedidoDto>> ReadAllPedido()
     {
-        return Ok();
+        return _mapper.Map<List<ReadPedidoDto>>(_context.Pedido.ToList());
     }
 
-    // PATCH: ItemPedido/Edit/5
-    [HttpPatch]
+    // GET: v1/Pedido/{id}
+    [HttpGet("{id}")]
+    public ActionResult PedidoDetails(int id)
+    {
+        var currentPedido = _context.Pedido.FirstOrDefault(pedido => pedido.Id == id);
+        if (currentPedido == null)
+        {
+            NotFound();
+        }
+        return Ok(currentPedido);
+    }
+
+    // POST: v1/Pedido
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public ActionResult CreatePedido([FromBody] CreatePedidoDto pedidoDto)
     {
         try
         {
-            return RedirectToAction(nameof(Index));
+            var pedido = _mapper.Map<Pedidos>(pedidoDto);
+            _context.Pedido.Add(pedido);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(PedidoDetails), new {id = pedido.Id}, pedido);
+        }
+        catch
+        {
+            throw new ApplicationException("Erro ao cadastrar pedido.");
+        }
+    }
+
+
+    // PUT: v1/Pedido/{id}
+    [HttpPut("{id}")]
+    public ActionResult EdiPedido(int id, [FromBody] PedidoUpdateDto updateDto)
+    {
+        try
+        {
+            var currentPedido = _context.Pedido.FirstOrDefault(pedido => pedido.Id == id);
+            if (currentPedido == null)
+            {
+                NotFound();
+            }
+
+            _mapper.Map(updateDto, currentPedido);
+            _context.SaveChanges();
+            
+            return NoContent();
+        }
+        catch
+        {
+            throw new ApplicationException("Erro ao cadastrar pedido.");
+        }
+    }
+
+    // PATCH: v1/Pedido/{id}
+    [HttpPatch]
+    [ValidateAntiForgeryToken]
+    public ActionResult EditPartialPedido(int id, JsonPatchDocument<PedidoUpdateDto> patch)
+    {
+        try
+        {
+            var pedido = _context.Pedido.FirstOrDefault(pedido => pedido.Id == id);
+            if (pedido == null)
+            {
+                NotFound();
+            }
+
+            var currentPedido = _mapper.Map<PedidoUpdateDto>(pedido);
+            patch.ApplyTo(currentPedido);
+            if (!TryValidateModel(currentPedido))
+            {
+                return ValidationProblem();
+            }
+
+            _mapper.Map(currentPedido, pedido);
+            _context.SaveChanges();
+
+            return NoContent();
         }
         catch
         {
@@ -44,10 +112,18 @@ public class PedidoController : ControllerBase
         }
     }
 
-    // DELETE: ItemPedido/Delete/5
+    // DELETE: Pedido/{id}
     [HttpDelete]
-    public ActionResult Delete(int id)
+    public ActionResult DeletePedido(int id)
     {
-        return Ok();
+        var currentPedido = _context.Pedido.FirstOrDefault(pedido => pedido.Id == id);
+        if (currentPedido == null)
+        {
+            NotFound();
+        }
+
+        _context.Pedido.Remove(currentPedido);
+        _context.SaveChanges();
+        return NoContent();
     }
 }

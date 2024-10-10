@@ -1,65 +1,119 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Estoque.Data;
+using Estoque.Data.Dto;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComexApi.Model;
 [ApiController]
-[Route("[controller]")]
+[Route("v1/[controller]")]
 public class ProdutoController : ControllerBase
 {
-    // GET: ItemPedido
-    [HttpGet]
-    public ActionResult Index()
+    private IMapper _mapper;
+    private AppDbContext _context;
+
+    public ProdutoController(IMapper mapper, AppDbContext context)
     {
-        return Ok();
-    }
-    [HttpGet("{id}")]
-    // GET: ItemPedido/Details/5
-    public ActionResult Details(int id)
-    {
-        return Ok();
+        _mapper = mapper;
+        _context = context;
     }
 
-    // POST: ItemPedido/Create
+    // GET: v1/ItemPedido
+    [HttpGet]
+    public ActionResult<IEnumerable<ReadProdutoDto>> ReadAllProduto()
+    {
+        return _mapper.Map<List<ReadProdutoDto>>(_context.Produto.ToList());
+    }
+
+    [HttpGet("{id}")]
+    // GET: v1/ItemPedido/{id}
+    public ActionResult ProdutoDetails(int id)
+    {
+        var currentProduto = _context.Produto.FirstOrDefault(produto => produto.Id == id);
+        if (currentProduto == null)
+        {
+            NotFound();
+        }
+        return Ok(currentProduto);
+    }
+
+    // POST: v1/ItemPedido
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
+    public ActionResult CreateProduto([FromBody] CreateProdutoDto podutoDto)
     {
         try
         {
-            return RedirectToAction(nameof(Index));
+            var produto = _mapper.Map<Produto>(podutoDto);
+            _context.Add(produto);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(ProdutoDetails), new { id = produto.Id }, produto);
         }
         catch
         {
-            return Ok();
+            throw new ApplicationException("Erro ao cadastrar produto.");
         }
     }
 
-    // PUT: ItemPedido/Edit/5
-    [HttpPut]
-    public ActionResult Edit(int id)
+    // PUT: v1/ItemPedido/{id}
+    [HttpPut("{id}")]
+    public ActionResult EditProduto(int id, [FromBody] UpdateProdutoDto produtoDto)
     {
-        return Ok();
+        var currentProduto = _context.Produto.FirstOrDefault(produto => produto.Id == id);
+        if (currentProduto == null)
+        {
+            NotFound();
+        }
+
+        _mapper.Map<Produto>(currentProduto);
+        _context.SaveChanges();
+        return NoContent();
     }
 
-    // PATCH: ItemPedido/Edit/5
+    // PATCH: v1/ItemPedido/{id}
     [HttpPatch]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public ActionResult EditPartialProduto(int id, JsonPatchDocument<UpdateProdutoDto> patch)
     {
         try
         {
-            return RedirectToAction(nameof(Index));
+            var produto = _context.Produto.FirstOrDefault(produto => produto.Id == id);
+            if (produto == null)
+            {
+                NotFound();
+            }
+
+            var currentProduto = _mapper.Map<UpdateProdutoDto>(produto);
+            patch.ApplyTo(currentProduto);
+            if (!TryValidateModel(currentProduto))
+            {
+                return ValidationProblem();
+            }
+
+            _mapper.Map(currentProduto, produto);
+            _context.SaveChanges();
+
+            return NoContent();
         }
         catch
         {
-            return Ok();
+            throw new ApplicationException("Erro ao cadastrar produto.");
         }
     }
 
-    // DELETE: ItemPedido/Delete/5
+    // DELETE: v1/ItemPedido/{id}
     [HttpDelete]
-    public ActionResult Delete(int id)
+    public ActionResult DeleteProduto(int id)
     {
-        return Ok();
+        var currentProduto = _context.Produto.FirstOrDefault(produto => produto.Id == id);
+        if (currentProduto == null)
+        {
+            NotFound();
+        }
+
+        _context.Remove(currentProduto);
+        _context.SaveChanges();
+        return NoContent();
     }
 }

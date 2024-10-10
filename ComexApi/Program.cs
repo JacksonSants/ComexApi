@@ -6,11 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 var pedidoConection = builder.Configuration.GetConnectionString("pedidoConection");
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<AppDbContext>(opts
     =>opts.UseMySql(pedidoConection, ServerVersion.AutoDetect(pedidoConection)));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
