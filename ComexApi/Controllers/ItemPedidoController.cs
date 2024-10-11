@@ -41,7 +41,6 @@ public class ItemPedidoController : ControllerBase
 
     // POST: v1/ItemPedido
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public ActionResult CreateItemPedido([FromBody] CreatePedidoDto itemPedidoDto)
     {
         try

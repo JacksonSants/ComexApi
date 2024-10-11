@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComexApi.Controllers;
 [ApiController]
-[Route("[controller]")]
+[Route("v1/[controller]")]
 public class PedidoController : ControllerBase
 {
     private IMapper _mapper;
@@ -40,7 +40,6 @@ public class PedidoController : ControllerBase
 
     // POST: v1/Pedido
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public ActionResult CreatePedido([FromBody] CreatePedidoDto pedidoDto)
     {
         try
@@ -83,7 +82,6 @@ public class PedidoController : ControllerBase
 
     // PATCH: v1/Pedido/{id}
     [HttpPatch]
-    [ValidateAntiForgeryToken]
     public ActionResult EditPartialPedido(int id, JsonPatchDocument<UpdatePedidoDto> patch)
     {
         try
