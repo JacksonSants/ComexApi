@@ -10,7 +10,6 @@ public class AppDbContext : DbContext
     {
 
     }
-
     public DbSet<Pedidos> Pedido { get; set; }
     public DbSet<ItemPedido> ItemsPedido { get; set; }
 }

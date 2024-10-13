@@ -40,21 +40,23 @@ public class ProdutoController : ControllerBase
 
     // POST: v1/ItemPedido
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult CreateProduto([FromBody] CreateProdutoDto podutoDto)
+    public ActionResult CreateProduto([FromBody] CreateProdutoDto produtoDto)
     {
         try
         {
-            var produto = _mapper.Map<Produto>(podutoDto);
+            var produto = _mapper.Map<Produto>(produtoDto);
             _context.Add(produto);
             _context.SaveChanges();
             return CreatedAtAction(nameof(ProdutoDetails), new { id = produto.Id }, produto);
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar produto.");
+            // Adicione logging ou exiba a exceção original
+            Console.WriteLine(ex.Message);  // Para fins de depuração
+            throw new ApplicationException("Erro ao cadastrar produto.", ex);  // Repassa a exceção original
         }
     }
+
 
     // PUT: v1/ItemPedido/{id}
     [HttpPut("{id}")]
@@ -66,14 +68,13 @@ public class ProdutoController : ControllerBase
             NotFound();
         }
 
-        _mapper.Map<Produto>(currentProduto);
+        _mapper.Map(produtoDto, currentProduto);
         _context.SaveChanges();
         return NoContent();
     }
 
     // PATCH: v1/ItemPedido/{id}
     [HttpPatch]
-    [ValidateAntiForgeryToken]
     public ActionResult EditPartialProduto(int id, JsonPatchDocument<UpdateProdutoDto> patch)
     {
         try
@@ -96,14 +97,16 @@ public class ProdutoController : ControllerBase
 
             return NoContent();
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar produto.");
+            // Adicione logging ou exiba a exceção original
+            Console.WriteLine(ex.Message);  // Para fins de depuração
+            throw new ApplicationException("Erro ao atualizar produto.", ex);  // Repassa a exceção original
         }
     }
 
     // DELETE: v1/ItemPedido/{id}
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public ActionResult DeleteProduto(int id)
     {
         var currentProduto = _context.Produto.FirstOrDefault(produto => produto.Id == id);
@@ -112,7 +115,7 @@ public class ProdutoController : ControllerBase
             NotFound();
         }
 
-        _context.Remove(currentProduto);
+        _context.Produto.Remove(currentProduto);
         _context.SaveChanges();
         return NoContent();
     }
