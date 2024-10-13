@@ -52,9 +52,10 @@ public class ItemPedidoController : ControllerBase
 
             return CreatedAtAction(nameof(ItemsPedidoDetails), new { id = itemPedido.Id }, itemPedido);
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar pedido.");
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao cria item do pedido.", ex);
         }
     }
 

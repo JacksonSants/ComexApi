@@ -51,9 +51,8 @@ public class ProdutoController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Adicione logging ou exiba a exceção original
-            Console.WriteLine(ex.Message);  // Para fins de depuração
-            throw new ApplicationException("Erro ao cadastrar produto.", ex);  // Repassa a exceção original
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao atualizar produto.", ex);
         }
     }
 
@@ -99,9 +98,8 @@ public class ProdutoController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Adicione logging ou exiba a exceção original
-            Console.WriteLine(ex.Message);  // Para fins de depuração
-            throw new ApplicationException("Erro ao atualizar produto.", ex);  // Repassa a exceção original
+            Console.WriteLine(ex.Message); 
+            throw new ApplicationException("Erro ao atualizar produto.", ex);  
         }
     }
 

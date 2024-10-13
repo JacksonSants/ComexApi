@@ -40,7 +40,6 @@ public class PedidoController : ControllerBase
 
     // POST: v1/Pedido
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public ActionResult CreatePedido([FromBody] CreatePedidoDto pedidoDto)
     {
         try
@@ -51,9 +50,10 @@ public class PedidoController : ControllerBase
 
             return CreatedAtAction(nameof(PedidoDetails), new {id = pedido.Id}, pedido);
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar pedido.");
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao cria pedido.", ex);
         }
     }
 
@@ -75,15 +75,15 @@ public class PedidoController : ControllerBase
             
             return NoContent();
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar pedido.");
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao atualizar pedido.", ex);
         }
     }
 
     // PATCH: v1/Pedido/{id}
     [HttpPatch]
-    [ValidateAntiForgeryToken]
     public ActionResult EditPartialPedido(int id, JsonPatchDocument<PedidoUpdateDto> patch)
     {
         try
