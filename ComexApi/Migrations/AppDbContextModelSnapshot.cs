@@ -29,10 +29,6 @@ namespace ComexApi.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("PedidoId")
                         .HasColumnType("int");
 

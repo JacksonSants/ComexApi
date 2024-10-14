@@ -8,6 +8,8 @@ var produtoConection = builder.Configuration.GetConnectionString("produtoConnect
 builder.Services.AddDbContext<AppDbContext>(opts
     => opts.UseMySql(produtoConection, ServerVersion.AutoDetect(produtoConection)));
 
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.

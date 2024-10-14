@@ -1,7 +1,10 @@
 using ComexApi.Data;
+using ComexApi.ProdutoHttpClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System;
+using static ComexApi.ItemProdutocliente.IItemProdutoHttpClient;
+using static ComexApi.ItemProdutocliente.ItemProdutoHttpClient;
 
 var builder = WebApplication.CreateBuilder(args);
 var pedidoConection = builder.Configuration.GetConnectionString("pedidoConection");
@@ -10,6 +13,10 @@ var pedidoConection = builder.Configuration.GetConnectionString("pedidoConection
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<AppDbContext>(opts
     => opts.UseMySql(pedidoConection, ServerVersion.AutoDetect(pedidoConection)));
+
+builder.Services.AddScoped<ProdutoHttpClient, ProdutoHttpClient>();
+
+builder.Services.AddHttpClient<ProdutoHttpClient, ProdutoHttpClient>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

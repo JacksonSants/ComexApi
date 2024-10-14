@@ -8,6 +8,7 @@ public class PedidoProfile : Profile
     {
         CreateMap<CreatePedidoDto, Pedido>();
         CreateMap<UpdatePedidoDto, Pedido>();
-        CreateMap<ReadPedidoDto, Pedido>();
+        CreateMap<Pedido, ReadPedidoDto>().ForMember(pedidoDto => pedidoDto.ItemPedido,
+            opt => opt.MapFrom(pedido => pedido.ItemPedido));
     }
 }

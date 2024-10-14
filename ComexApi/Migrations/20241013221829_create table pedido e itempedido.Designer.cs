@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComexApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241011132337_Create Table Pedido e ItemPedido")]
-    partial class CreateTablePedidoeItemPedido
+    [Migration("20241013221829_create table pedido e itempedido")]
+    partial class createtablepedidoeitempedido
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,10 +31,6 @@ namespace ComexApi.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<int>("PedidoId")
                         .HasColumnType("int");

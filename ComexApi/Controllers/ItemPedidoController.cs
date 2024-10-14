@@ -41,7 +41,7 @@ public class ItemPedidoController : ControllerBase
 
     // POST: v1/ItemPedido
     [HttpPost]
-    public ActionResult CreateItemPedido([FromBody] CreatePedidoDto itemPedidoDto)
+    public ActionResult CreateItemPedido([FromBody] CreateItemPedidoDto itemPedidoDto)
     {
         try
         {
@@ -51,9 +51,10 @@ public class ItemPedidoController : ControllerBase
 
             return CreatedAtAction(nameof(ItemsPedidoDetails), new { id = itemPedido.Id }, itemPedido);
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar pedido.");
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao criar produto.", ex);
         }
     }
 
@@ -96,7 +97,7 @@ public class ItemPedidoController : ControllerBase
     }*/
 
     // DELETE: v1/ItemPedido/{id}
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public ActionResult DeleteItemPedido(int id)
     {
         var currentPedido = _context.ItemsPedido.FirstOrDefault(itemPedido => itemPedido.Id == id);

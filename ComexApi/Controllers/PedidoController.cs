@@ -50,16 +50,17 @@ public class PedidoController : ControllerBase
 
             return CreatedAtAction(nameof(PedidoDetails), new { id = pedido.Id }, pedido);
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar pedido.");
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao criar produto.", ex);
         }
     }
 
 
     // PUT: v1/Pedido/{id}
     [HttpPut("{id}")]
-    public ActionResult EdiPedido(int id, [FromBody] UpdatePedidoDto updateDto)
+    public ActionResult EditPedido(int id, [FromBody] UpdatePedidoDto updateDto)
     {
         try
         {
@@ -74,14 +75,15 @@ public class PedidoController : ControllerBase
 
             return NoContent();
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ApplicationException("Erro ao cadastrar pedido.");
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao atualizar produto.", ex);
         }
     }
 
     // PATCH: v1/Pedido/{id}
-    [HttpPatch]
+    [HttpPatch("{id}")]
     public ActionResult EditPartialPedido(int id, JsonPatchDocument<UpdatePedidoDto> patch)
     {
         try
@@ -104,14 +106,15 @@ public class PedidoController : ControllerBase
 
             return NoContent();
         }
-        catch
+        catch (Exception ex)
         {
-            return Ok();
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Erro ao atualizar produto.", ex);
         }
     }
 
     // DELETE: Pedido/{id}
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public ActionResult DeletePedido(int id)
     {
         var currentPedido = _context.Pedido.FirstOrDefault(pedido => pedido.Id == id);
